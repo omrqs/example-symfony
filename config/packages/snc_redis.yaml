@@ -1,0 +1,9 @@
+snc_redis:
+    session:
+        client: default
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: "%env(resolve:REDIS_URL)%"
+            logging: '%kernel.debug%'

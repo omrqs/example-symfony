@@ -1,0 +1,29 @@
+file_uploads = On
+memory_limit = 1G
+upload_max_filesize = 64M
+post_max_size = 64M
+max_file_uploads = 10
+max_input_time = 60
+max_execution_time = 3600
+max_input_vars = 10000
+error_reporting = 'E_ALL & ~E_DEPRECATED & ~E_STRICT'
+display_errors = On
+allow_url_fopen = On
+cgi.fix_pathinfo = 0
+date.timezone = UTC
+
+opcache.enable = 0
+
+; [mysql]
+mysql.connect_timeout = 28800
+default_socket_timeout = 28800
+
+; [xdebug]
+xdebug.remote_enable = 1
+xdebug.remote_autostart=1
+xdebug.remote_connect_back=1
+xdebug.remote_cookie_expire_time = 3600
+xdebug.remote_host = localhost
+xdebug.remote_port = 9000
+xdebug.remote_handler=dbgp
+xdebug.max_nesting_level = 500

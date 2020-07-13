@@ -1,0 +1,41 @@
+version: '3.7'
+networks:
+    challenge:
+        driver: bridge
+services:
+    web:
+        image: omrqs/php7.x-sf:php-7.4-mongodb
+        container_name: challenge
+        restart: always
+        depends_on:
+            - redis
+            - mongo
+        expose:
+            - ${UPSTREAM_PORT}
+        links: 
+            - redis
+            - mongo
+        volumes:
+            - ./:${CONTAINER_PATH}
+            - ./docker/custom.ini.local:/usr/local/etc/php/conf.d/custom.ini
+            - ./docker/entrypoint.local.sh:${CONTAINER_PATH}/entrypoint.sh
+        working_dir: ${CONTAINER_PATH}
+        entrypoint: ["sh", "${CONTAINER_PATH}/entrypoint.sh"]
+        networks:
+            - challenge
+    redis:
+        image: redis:alpine
+        labels:
+            com.symfony.server.service-prefix: 'REDIS'
+        expose:
+            - ${REDIS_PORT}
+        networks:
+            - challenge
+    mongo:
+        image: mongo
+        restart: always
+        labels:
+            com.symfony.server.service-prefix: 'MONGO'
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
