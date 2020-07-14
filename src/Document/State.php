@@ -1,8 +1,8 @@
 <?php
 namespace App\Document;
 
+use Symfony\Component\Validator\Constraints as Assert;  
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\ODM\MongoDB\Mapping\Annotations\Id;
 
 /**
  * State document.
@@ -29,6 +29,7 @@ class State
      * @var string
      *
      * @MongoDB\String
+     * @Assert\NotBlank(message="model.not_blank.name")
      */
     private $name;
 
@@ -36,6 +37,7 @@ class State
      * @var string
      *
      * @MongoDB\String
+     * @Assert\NotBlank(message="model.not_blank.abrev")
      */
     private $abrev;
 

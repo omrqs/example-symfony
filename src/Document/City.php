@@ -1,6 +1,9 @@
 <?php
 namespace App\Document;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
  * State entity.
  * @MongoDB\Document(
@@ -15,11 +18,6 @@ class City
     use AuthorshipTrait;
 
     /**
-     * @var \App\Document\State
-     */
-    private $state;
-
-    /**
      * @var int
      *
      * @MongoDB\Id
@@ -27,9 +25,18 @@ class City
     private $id;
 
     /**
+     * @var \App\Document\State
+     * 
+     * @MongoDB\String
+     * @Assert\NotBlank(message = "model.not_blank.state")
+     */
+    private $state;
+
+    /**
      * @var string
      *
      * @MongoDB\String
+     * @Assert\NotBlank(message = "model.not_blank.name")
      */
     private $name;
 
