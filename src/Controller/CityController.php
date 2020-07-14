@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\City;
 use App\Form\CityType;
+use App\DocumentRepository\CityRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,12 +26,10 @@ class CityController extends AbstractController
      */
     public function index(): JsonResponse
     {
-        $citys = $this->getDoctrine()
-            ->getRepository(City::class)
-            ->findAll();
+        $cities = $cityRepository->findAll();
 
         return $this->json([
-            'citys' => $citys,
+            'cities' => $cities,
         ]);
     }
 
@@ -69,6 +69,7 @@ class CityController extends AbstractController
      *     description="Show city details.",
      * )
      * @SWG\Tag(name="city")
+     * @Entity("city", expr="repository.find(id)")
      */
     public function show(City $city): JsonResponse
     {
@@ -88,6 +89,7 @@ class CityController extends AbstractController
      *     )
      * )
      * @SWG\Tag(name="city")
+     * @Entity("city", expr="repository.find(id)")
      */
     public function update(Request $request, City $city): JsonResponse
     {
@@ -110,6 +112,7 @@ class CityController extends AbstractController
      *     description="Delete a city",
      * )
      * @SWG\Tag(name="city")
+     * @Entity("city", expr="repository.find(id)")
      */
     public function delete(Request $request, City $city): JsonResponse
     {

@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\State;
 use App\Form\StateType;
+use App\DocumentRepository\StateRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,18 +20,16 @@ class StateController extends AbstractController
      * @Route("/", name="index", methods={"GET"})
      * @SWG\Response(
      *     response=200,
-     *     description="List paginate states.",
+     *     description="List paginate cities.",
      * )
      * @SWG\Tag(name="state")
      */
-    public function index(): JsonResponse
+    public function index(StateRepository $stateRepository): JsonResponse
     {
-        $states = $this->getDoctrine()
-            ->getRepository(State::class)
-            ->findAll();
+        $cities = $stateRepository->findAll();
 
         return $this->json([
-            'states' => $states,
+            'cities' => $cities,
         ]);
     }
 
@@ -52,9 +52,9 @@ class StateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($state);
-            $entityManager->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($state);
+            $em->flush();
         }
 
         return $this->json([
@@ -69,6 +69,7 @@ class StateController extends AbstractController
      *     description="Show state details.",
      * )
      * @SWG\Tag(name="state")
+     * @Entity("state", expr="repository.find(id)")
      */
     public function show(State $state): JsonResponse
     {
@@ -88,6 +89,7 @@ class StateController extends AbstractController
      *     )
      * )
      * @SWG\Tag(name="state")
+     * @Entity("state", expr="repository.find(id)")
      */
     public function update(Request $request, State $state): JsonResponse
     {
@@ -110,13 +112,13 @@ class StateController extends AbstractController
      *     description="Delete a state",
      * )
      * @SWG\Tag(name="state")
+     * @Entity("state", expr="repository.find(id)")
      */
     public function delete(Request $request, State $state): JsonResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$state->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($state);
-            $entityManager->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($state);
+            $em->flush();
         }
 
         return $this->json([]);
