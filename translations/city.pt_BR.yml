@@ -1,0 +1,10 @@
+model:
+    not_blank:
+        state: O estado não pode ficar em branco.
+        name: O nome da cidade não pode ficar em branco.
+
+controller:
+    success:
+        new: Registro criado.
+        update: Registro atualizado.
+        delete: Registro removido.

@@ -1,0 +1,10 @@
+model:
+    not_blank:
+        name: O nome estado não pode ficar em branco.
+        abrev: A sigla do estado não pode ficar em branco.
+
+controller:
+    success:
+        new: Registro criado.
+        update: Registro atualizado.
+        delete: Registro removido.
