@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/city", name="city_")
@@ -24,7 +25,7 @@ class CityController extends AbstractController
      * )
      * @SWG\Tag(name="city")
      */
-    public function index(): JsonResponse
+    public function index(CityRepository $cityRepository): JsonResponse
     {
         $cities = $cityRepository->findAll();
 
@@ -45,7 +46,7 @@ class CityController extends AbstractController
      * )
      * @SWG\Tag(name="city")
      */
-    public function new(Request $request): JsonResponse
+    public function new(Request $request, TranslatorInterface $translator): JsonResponse
     {
         $city = new City();
         $form = $this->createForm(CityType::class, $city);
@@ -55,6 +56,8 @@ class CityController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($city);
             $em->flush();
+
+            $this->addFlash('error', $translator->trans('controller.success.new', [], 'city'));
         }
 
         return $this->json([
@@ -91,13 +94,15 @@ class CityController extends AbstractController
      * @SWG\Tag(name="city")
      * @Entity("city", expr="repository.find(id)")
      */
-    public function update(Request $request, City $city): JsonResponse
+    public function update(Request $request, City $city, TranslatorInterface $translator): JsonResponse
     {
         $form = $this->createForm(CityType::class, $city, ['method' => 'PATCH']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('error', $translator->trans('controller.success.update', [], 'city'));
         }
 
         return $this->json([
@@ -114,12 +119,16 @@ class CityController extends AbstractController
      * @SWG\Tag(name="city")
      * @Entity("city", expr="repository.find(id)")
      */
-    public function delete(Request $request, City $city): JsonResponse
+    public function delete(Request $request, City $city, TranslatorInterface $translator): JsonResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$city->getId(), $request->request->get('_token'))) {
+        try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($city);
             $em->flush();
+
+            $this->addFlash('error', $translator->trans('controller.success.delete', [], 'city'));
+        } catch (\Exception $e) {
+            $this->addFlash('error', $translator->trans($e->getMessage(), [], 'city'));
         }
 
         return $this->json([]);

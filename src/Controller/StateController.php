@@ -45,7 +45,7 @@ class StateController extends AbstractController
      * )
      * @SWG\Tag(name="state")
      */
-    public function new(Request $request): JsonResponse
+    public function new(Request $request, TranslatorInterface $translator): JsonResponse
     {
         $state = new State();
         $form = $this->createForm(StateType::class, $state);
@@ -55,6 +55,8 @@ class StateController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($state);
             $em->flush();
+
+            $this->addFlash('error', $translator->trans('controller.success.new', [], 'state'));
         }
 
         return $this->json([
@@ -71,7 +73,7 @@ class StateController extends AbstractController
      * @SWG\Tag(name="state")
      * @Entity("state", expr="repository.find(id)")
      */
-    public function show(State $state): JsonResponse
+    public function show(StateRepository $stateRepository, State $state): JsonResponse
     {
         return $this->json([
             'state' => $state,
@@ -91,13 +93,15 @@ class StateController extends AbstractController
      * @SWG\Tag(name="state")
      * @Entity("state", expr="repository.find(id)")
      */
-    public function update(Request $request, State $state): JsonResponse
+    public function update(Request $request, State $state, TranslatorInterface $translator): JsonResponse
     {
         $form = $this->createForm(StateType::class, $state, ['method' => 'PATCH']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('error', $translator->trans('controller.success.update', [], 'state'));
         }
 
         return $this->json([
@@ -114,11 +118,14 @@ class StateController extends AbstractController
      * @SWG\Tag(name="state")
      * @Entity("state", expr="repository.find(id)")
      */
-    public function delete(Request $request, State $state): JsonResponse
+    public function delete(Request $request, State $state, TranslatorInterface $translator): JsonResponse
     {
+        try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($state);
             $em->flush();
+        } catch (\Exception $e) {
+            $this->addFlash('error', $translator->trans($e->getMessage(), [], 'state'));
         }
 
         return $this->json([]);
