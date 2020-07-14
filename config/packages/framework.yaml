@@ -1,17 +1,24 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
-    #csrf_protection: true
-    #http_method_override: true
-
-    # Enables session support. Note that the session will ONLY be started if you read or write from it.
-    # Remove or comment this section to explicitly disable session support.
+    csrf_protection: false
+    http_method_override: true
+    default_locale: pt_BR
+    translator: { fallbacks: ["pt_BR"] }
     session:
-        handler_id: null
-        cookie_secure: auto
-        cookie_samesite: lax
-
-    #esi: true
-    #fragments: true
+        handler_id: snc_redis.session.handler
+        cookie_lifetime: 604800
+        gc_maxlifetime: 604800 # 1 week
+        gc_probability: 1
+        gc_divisor: 1
+    esi: { enabled: false }
+    fragments: true
     php_errors:
         log: true
+    router:
+        strict_requirements: ~
+    serializer:
+        enabled: false
+        enable_annotations: false
+    profiler:
+        enabled: '%kernel.debug%'
