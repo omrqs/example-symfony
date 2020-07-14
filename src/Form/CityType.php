@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Document\City;
-use App\Document\State;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,10 +14,16 @@ class CityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('state', EntityType::class, [
-                'class' => State::class,
+            ->add('state', null, [
+                'documentation' => [
+                    'description' => 'State of city.',
+                ]
             ])
-            ->add('name', TextType::class)
+            ->add('name', TextType::class, [
+                'documentation' => [
+                    'description' => 'Name of city.',
+                ]
+            ])
         ;
     }
 

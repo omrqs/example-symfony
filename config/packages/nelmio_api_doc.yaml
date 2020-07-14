@@ -1,6 +1,17 @@
 nelmio_api_doc:
+    models: { use_jms: false }
     documentation:
+        host: '%env(resolve:APP_URL)%'
+        schemes: [http, https]
         info:
             title: '%env(resolve:APP_NAME)%'
             description: '%env(resolve:APP_DESCRIPTION)%'
             version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header
+        security:
+            - Bearer: []

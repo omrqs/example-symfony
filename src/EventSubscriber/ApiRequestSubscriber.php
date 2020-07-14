@@ -2,7 +2,6 @@
 
 namespace App\EventSubscriber;
 
-use CoreHelper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
@@ -28,7 +27,7 @@ class ApiRequestSubscriber implements EventSubscriberInterface
 
         // Convert data snake case to camelCase and replace data request.
         $requestData = $event->getRequest()->request->all();
-        $data = CoreHelper::denormalize($requestData);
+        $data = \App\Helper\CoreHelper::denormalize($requestData);
 
         $event->getRequest()->request->replace(is_array($data) ? $data : []);
     }

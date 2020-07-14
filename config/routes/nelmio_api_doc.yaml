@@ -1,5 +1,5 @@
 app.swagger:
     path: ''
-    host: '%APP_URL%'
+    # host: '%env(resolve:APP_URL)%'
     methods: GET
-    defaults: { _controller: nelmio_api_doc.controller.swagger.ui }
+    defaults: { _controller: nelmio_api_doc.controller.swagger }

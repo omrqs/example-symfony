@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\City;
+use App\Document\City;
 use App\Form\CityType;
 use App\DocumentRepository\CityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model as NelmioModel;
+use Nelmio\ApiDocBundle\Annotation\Security as NelmioSecurity;
+use Swagger\Annotations as SWG;
 
 /**
  * @Route("/city", name="city_")
@@ -24,6 +27,7 @@ class CityController extends AbstractController
      *     description="List paginate cities.",
      * )
      * @SWG\Tag(name="city")
+     * @NelmioSecurity(name="Bearer")
      */
     public function index(CityRepository $cityRepository): JsonResponse
     {
@@ -45,6 +49,7 @@ class CityController extends AbstractController
      *     )
      * )
      * @SWG\Tag(name="city")
+     * @NelmioSecurity(name="Bearer")
      */
     public function new(Request $request, TranslatorInterface $translator): JsonResponse
     {
@@ -53,7 +58,7 @@ class CityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine('doctrine_mongodb')->getManager();
             $em->persist($city);
             $em->flush();
 
@@ -72,6 +77,7 @@ class CityController extends AbstractController
      *     description="Show city details.",
      * )
      * @SWG\Tag(name="city")
+     * @NelmioSecurity(name="Bearer")
      * @Entity("city", expr="repository.find(id)")
      */
     public function show(City $city): JsonResponse
@@ -92,6 +98,7 @@ class CityController extends AbstractController
      *     )
      * )
      * @SWG\Tag(name="city")
+     * @NelmioSecurity(name="Bearer")
      * @Entity("city", expr="repository.find(id)")
      */
     public function update(Request $request, City $city, TranslatorInterface $translator): JsonResponse
@@ -100,7 +107,7 @@ class CityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine('doctrine_mongodb')->getManager()->flush();
 
             $this->addFlash('error', $translator->trans('controller.success.update', [], 'city'));
         }
@@ -117,12 +124,13 @@ class CityController extends AbstractController
      *     description="Delete a city",
      * )
      * @SWG\Tag(name="city")
+     * @NelmioSecurity(name="Bearer")
      * @Entity("city", expr="repository.find(id)")
      */
     public function delete(Request $request, City $city, TranslatorInterface $translator): JsonResponse
     {
         try {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine('doctrine_mongodb')->getManager();
             $em->remove($city);
             $em->flush();
 

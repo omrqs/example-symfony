@@ -3,6 +3,7 @@ namespace App\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;  
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
 
 /**
  * State document.
@@ -11,6 +12,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  *  collection="state",
  *  repositoryClass="App\DocumentRepository\StateRepository"
  * )
+ * @MongoDBUnique(fields="abrev")
  * @MongoDB\HasLifecycleCallbacks
  */
 class State
@@ -28,7 +30,7 @@ class State
     /**
      * @var string
      *
-     * @MongoDB\String
+     * @MongoDB\Field(type="string")
      * @Assert\NotBlank(message="model.not_blank.name")
      */
     private $name;
@@ -36,13 +38,13 @@ class State
     /**
      * @var string
      *
-     * @MongoDB\String
+     * @MongoDB\Field(type="string")
      * @Assert\NotBlank(message="model.not_blank.abrev")
      */
     private $abrev;
 
     public function __toString(): string
     {
-        return $this->name;
+        return strtoupper($this->abrev);
     }
 }

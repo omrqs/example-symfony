@@ -13,8 +13,16 @@ class StateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('abrev', TextType::class)
+            ->add('name', TextType::class, [
+                'documentation' => [
+                    'description' => 'Name of state.',
+                ]
+            ])
+            ->add('abrev', TextType::class, [
+                'documentation' => [
+                    'description' => 'Abbreviation of state.',
+                ]
+            ])
         ;
     }
 

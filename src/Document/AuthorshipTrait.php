@@ -13,14 +13,14 @@ trait AuthorshipTrait
     /**
      * @var \DateTime
      *
-     * @MongoDB\Date
+     * @MongoDB\Field(type="date")
      */
     protected $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @MongoDB\Date
+     * @MongoDB\Field(type="date")
      */
     protected $updatedAt;
 

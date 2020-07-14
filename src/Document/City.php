@@ -3,6 +3,7 @@ namespace App\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
 
 /**
  * State entity.
@@ -10,6 +11,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  *  collection="city", 
  *  repositoryClass="App\DocumentRepository\CityRepository"
  * )
+ * @MongoDBUnique(fields={"state","name"})
  * @MongoDB\HasLifecycleCallbacks
  */
 class City
@@ -27,16 +29,16 @@ class City
     /**
      * @var \App\Document\State
      * 
-     * @MongoDB\String
-     * @Assert\NotBlank(message = "model.not_blank.state")
+     * @MongoDB\EmbedOne(targetDocument=State::class)
+     * @Assert\NotBlank(message="model.not_blank.state")
      */
     private $state;
 
     /**
      * @var string
      *
-     * @MongoDB\String
-     * @Assert\NotBlank(message = "model.not_blank.name")
+     * @MongoDB\Field(type="string")
+     * @Assert\NotBlank(message="model.not_blank.name")
      */
     private $name;
 

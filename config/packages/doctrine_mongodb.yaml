@@ -3,7 +3,14 @@ doctrine_mongodb:
         default:
             server: "%mongodb_server%"
             options: {}
-    default_database: test_database
+    default_database: "%mongodb_db_name%"
     document_managers:
         default:
             auto_mapping: true
+            mappings:
+                App:
+                    is_bundle: false
+                    type: annotation
+                    dir: '%kernel.project_dir%/src/Document'
+                    prefix: 'App\Document'
+                    alias: App

@@ -10,8 +10,8 @@ services:
         depends_on:
             - redis
             - mongo
-        expose:
-            - ${UPSTREAM_PORT}
+        ports:
+            - ${UPSTREAM_PORT}:${UPSTREAM_PORT}
         links: 
             - redis
             - mongo
@@ -34,6 +34,8 @@ services:
     mongo:
         image: mongo
         restart: always
+        expose:
+            - ${MONGO_PORT}
         labels:
             com.symfony.server.service-prefix: 'MONGO'
         environment:
