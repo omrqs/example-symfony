@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="false"
+    backupStaticAttributes="false"
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false">
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <env name="KERNEL_CLASS" value="App\Kernel" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
+
+        <env name="APP_ENV" value="test" />
+        <env name="APP_DEBUG" value="1" />
+        <env name="SHELL_VERBOSITY" value="1" />
+        <env name="APP_SECRET" value="c3acabb123aeKKKKkfcaa9cff64a0e167" />
+        <env name="LIFETIME_REMEMBER_ME" value="604800" />
+
+        <env name="APP_NAME" value="Challenge" />
+        <env name="APP_DESCRIPTION" value="Lorem ipsum" />
+        <env name="APP_URL" value="" />
+        
+        <env name="REDIS_HOST" value="redis" />
+        <env name="REDIS_PORT" value="6379" />
+        <env name="REDIS_URL" value="redis://redis" />
+
+        <env name="DEFAULT_ACCESS_TOKEN" value="9876543210" />
+    </php>
+
+    <testsuites>
+        <!-- Manual execution order. -->
+        <testsuite name="Application">
+            <!-- Configure -->
+            <file>tests/ConfigureTest.php</file>
+            <!-- Controllers -->
+            <file>tests/WebTest/Controllers/StateTest.php</file> 
+            <file>tests/WebTest/Controllers/CityTest.php</file> 
+        </testsuite>
+    </testsuites>
+    
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
+</phpunit>
