@@ -76,7 +76,7 @@
         "setup": [
             "mkdir -p ./var/log && chmod -Rf 777 ./var/log",
             "mkdir -p ./var/cache && chmod -Rf 777 ./var/cache",
-            "php -d memory_limit=4G /usr/local/bin/composer i",
+            "php /usr/local/bin/composer i",
             "@post-root-package-install",
             "@install-assets"
         ],

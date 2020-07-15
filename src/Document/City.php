@@ -7,7 +7,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
 
 /**
- * State entity.
+ * City entity.
+ * 
  * @MongoDB\Document(
  *  collection="city",
  *  repositoryClass="App\DocumentRepository\CityRepository"

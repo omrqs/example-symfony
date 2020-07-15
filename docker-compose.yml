@@ -36,14 +36,13 @@ services:
         restart: always
         ports:
             - ${MONGODB_PORT}:${MONGODB_PORT}
-        env_file:
-            - .env
+        # env_file:
+        #     - .env
         labels:
             com.symfony.server.service-prefix: 'MONGO'
         environment:
             MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
             MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-            MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
         volumes:
             - ./docker/mongodb/mongod.conf:/etc/mongod.conf
             - ./docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/

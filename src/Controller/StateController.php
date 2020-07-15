@@ -22,7 +22,7 @@ class StateController extends AbstractController
      * @Route("", name="index", methods={"GET"})
      * @SWG\Response(
      *     response=200,
-     *     description="List paginated cities.",
+     *     description="List paginated states.",
      * )
      * @SWG\Tag(name="state")
      * @NelmioSecurity(name="Bearer")
@@ -30,14 +30,14 @@ class StateController extends AbstractController
     public function index(DocumentManager $dm): JsonResponse
     {
         $states = $dm->getRepository(State::class)->findAll();
-
+     
         return $this->json([
-            'cities' => $cities,
+            'states' => $states,
         ]);
     }
 
     /**
-     * @Route("/", name="new", methods={"POST"})
+     * @Route("", name="new", methods={"POST"})
      * @SWG\Response(
      *     response=200,
      *     description="Create a new state",

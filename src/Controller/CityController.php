@@ -37,7 +37,7 @@ class CityController extends AbstractController
     }
 
     /**
-     * @Route("/", name="new", methods={"POST"})
+     * @Route("", name="new", methods={"POST"})
      * @SWG\Response(
      *     response=200,
      *     description="Create a new city",
