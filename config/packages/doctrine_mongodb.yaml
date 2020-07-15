@@ -1,10 +1,12 @@
 doctrine_mongodb:
     connections:
         default:
-            server: "mongodb://mongodb:mongodb@localhost:27017"
-            # server: "%mongodb_server%"
-            options: {}
-    default_database: "%mongodb_db_name%"
+            server: 'mongodb://%env(MONGODB_SERVER)%:%env(MONGODB_PORT)%'
+            options:
+                username: '%env(MONGODB_USERNAME)%'
+                password: '%env(MONGODB_PASSWORD)%'
+                authSource: '%env(MONGO_INITDB_DATABASE)%'
+    default_database: '%env(MONGO_INITDB_DATABASE)%'
     document_managers:
         default:
             auto_mapping: true

@@ -4,8 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    mongodb_server: "mongodb://%env(resolve:MONGO_ROOT_USERNAME)%:%env(resolve:MONGO_ROOT_PASSWORD)%@%env(resolve:MONGO_HOST)%:%env(resolve:MONGO_PORT)%"
-    mongodb_db_name: "%env(resolve:APP_ENV)%"
+    app_name: "%env(resolve:APP_NAME)%"
+    app_description: "%env(resolve:APP_DESCRIPTION)%"
+    app_url: "%env(resolve:APP_URL)%"
 
 services:
     # default configuration for services in *this* file

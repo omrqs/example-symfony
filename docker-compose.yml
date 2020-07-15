@@ -9,12 +9,12 @@ services:
         restart: always
         depends_on:
             - redis
-            - mongo
+            - mongodb
         ports:
             - ${UPSTREAM_PORT}:${UPSTREAM_PORT}
         links: 
             - redis
-            - mongo
+            - mongodb
         volumes:
             - ./:${CONTAINER_PATH}
             - ./docker/custom.ini.local:/usr/local/etc/php/conf.d/custom.ini
@@ -31,21 +31,19 @@ services:
             - ${REDIS_PORT}
         networks:
             - challenge
-    mongo:
+    mongodb:
         image: mongo
-        hostname: mongodb
-        container_name: mongodb
         restart: always
         ports:
-            - ${MONGO_PORT}:${MONGO_PORT}
-        # expose:
-        #     - ${MONGO_PORT}
+            - ${MONGODB_PORT}:${MONGODB_PORT}
+        env_file:
+            - .env
         labels:
             com.symfony.server.service-prefix: 'MONGO'
         environment:
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-            MONGO_INITDB_DATABASE: ${APP_ENV}
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
         volumes:
             - ./docker/mongodb/mongod.conf:/etc/mongod.conf
             - ./docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
