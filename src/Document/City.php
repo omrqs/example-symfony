@@ -1,6 +1,7 @@
 <?php
 namespace App\Document;
 
+use App\AccessPropertyTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
@@ -8,7 +9,7 @@ use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
 /**
  * State entity.
  * @MongoDB\Document(
- *  collection="city", 
+ *  collection="city",
  *  repositoryClass="App\DocumentRepository\CityRepository"
  * )
  * @MongoDBUnique(fields={"state","name"})
@@ -28,7 +29,7 @@ class City
 
     /**
      * @var \App\Document\State
-     * 
+     *
      * @MongoDB\EmbedOne(targetDocument=State::class)
      * @Assert\NotBlank(message="model.not_blank.state")
      */
