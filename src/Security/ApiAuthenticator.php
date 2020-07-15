@@ -119,7 +119,7 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
     {
         $this->logger->info('Authentication failure.', [$exception->getMessage()]);
 
-        $message = $this->translator->trans('authentication.failure.pack_authenticator', [], 'auth');
+        $message = $this->translator->trans('authenticator.token.failure', [], 'auth');
 
         return new JsonResponse([
             'messages' => [

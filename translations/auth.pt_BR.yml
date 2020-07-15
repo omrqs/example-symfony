@@ -1,0 +1,3 @@
+authenticator:
+    token:
+        failure: "Credencial de acesso inválida."
