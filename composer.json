@@ -70,11 +70,15 @@
         "post-root-package-install": [
             "php -r \"file_exists('.env') || copy('.env.dist', '.env');\""
         ],
+        "install-assets": [
+            "php bin/console assets:install"
+        ],
         "setup": [
             "mkdir -p ./var/log && chmod -Rf 777 ./var/log",
             "mkdir -p ./var/cache && chmod -Rf 777 ./var/cache",
             "php -d memory_limit=4G /usr/local/bin/composer i",
-            "@post-root-package-install"
+            "@post-root-package-install",
+            "@install-assets"
         ],
         "server-dump": [
             "php bin/console server:dump",
