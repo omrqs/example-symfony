@@ -1,5 +1,10 @@
+app.swagger_ui:
+    path: '/doc'
+    host: "%app_url%"
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
 app.swagger:
-    path: ''
-    # host: '%env(resolve:APP_URL)%'
+    path: '/doc.json'
+    host: "%app_url%"
     methods: GET
     defaults: { _controller: nelmio_api_doc.controller.swagger }
