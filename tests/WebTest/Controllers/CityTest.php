@@ -21,8 +21,12 @@ class CityTest extends \App\Tests\CoreTest
      */
     public function testGetCitys()
     {
-        $this->client->xmlHttpRequest('GET', $this->router->generate('state_index'),
-            [], [], self::$loggedHeaders
+        $this->client->xmlHttpRequest(
+            'GET',
+            $this->router->generate('state_index'),
+            [],
+            [],
+            self::$loggedHeaders
         );
 
         $response = $this->client->getResponse();
@@ -47,8 +51,12 @@ class CityTest extends \App\Tests\CoreTest
      */
     public function testPostCity()
     {
-        $this->client->xmlHttpRequest('POST', $this->router->generate('state_new'),
-            [], [], self::$loggedHeaders,
+        $this->client->xmlHttpRequest(
+            'POST',
+            $this->router->generate('state_new'),
+            [],
+            [],
+            self::$loggedHeaders,
             json_encode($this->mockData)
         );
 
@@ -77,8 +85,12 @@ class CityTest extends \App\Tests\CoreTest
      */
     public function testGetCity()
     {
-        $this->client->xmlHttpRequest('GET', $this->router->generate('state_show', ['id' => $this->testId]),
-            [], [], self::$loggedHeaders
+        $this->client->xmlHttpRequest(
+            'GET',
+            $this->router->generate('state_show', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders
         );
 
         $response = $this->client->getResponse();
@@ -101,8 +113,12 @@ class CityTest extends \App\Tests\CoreTest
      */
     public function testPatchCity()
     {
-        $this->client->xmlHttpRequest('PATCH', $this->router->generate('state_update', ['id' => $this->testId]),
-            [], [], self::$loggedHeaders,
+        $this->client->xmlHttpRequest(
+            'PATCH',
+            $this->router->generate('state_update', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders,
             json_encode([
                 'name' => 'Patched Test City',
             ])
@@ -129,8 +145,12 @@ class CityTest extends \App\Tests\CoreTest
      */
     public function testDeleteCity()
     {
-        $this->client->xmlHttpRequest('DELETE', $this->router->generate('state_delete', ['id' => $this->testId]),
-            [], [], self::$loggedHeaders
+        $this->client->xmlHttpRequest(
+            'DELETE',
+            $this->router->generate('state_delete', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders
         );
 
         $response = $this->client->getResponse();
