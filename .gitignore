@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+/entrypoint.sh
 /.env
 /.env.local
 /.env.local.php
@@ -8,6 +9,7 @@
 /public/bundles/
 /var/
 /vendor/
+/docker/mongodb
 ###< symfony/framework-bundle ###
 
 ###> symfony/web-server-bundle ###
@@ -15,6 +17,7 @@
 ###< symfony/web-server-bundle ###
 
 ###> phpunit/phpunit ###
+.php_cs.cache
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
