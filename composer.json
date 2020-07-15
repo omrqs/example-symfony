@@ -77,11 +77,11 @@
             "@post-root-package-install"
         ],
         "server-dump": [
-            "php bin/console server:dump"
+            "php bin/console server:dump",
+            "@server-start"
         ],
         "server-start": [
-            "php bin/console server:run 0.0.0.0:80",
-            "@server-dump"
+            "php bin/console server:run 0.0.0.0:80"
         ]
     },
     "conflict": {

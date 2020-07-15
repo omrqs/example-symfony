@@ -1,7 +1,7 @@
 <?php
 namespace App\DocumentRepository;
 
-use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
+use Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepository;
  
-abstract class AbstractRepository extends DocumentRepository
+abstract class AbstractRepository extends ServiceDocumentRepository
 {}

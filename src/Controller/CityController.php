@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Controller;
 
 use App\Document\City;
 use App\Form\CityType;
-use App\DocumentRepository\CityRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,17 +19,17 @@ use Swagger\Annotations as SWG;
 class CityController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("", name="index", methods={"GET"})
      * @SWG\Response(
      *     response=200,
-     *     description="List paginate cities.",
+     *     description="List paginated cities.",
      * )
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
      */
-    public function index(CityRepository $cityRepository): JsonResponse
+    public function index(DocumentManager $dm): JsonResponse
     {
-        $cities = $cityRepository->findAll();
+        $cities = $dm->getRepository(City::class)->findAll();
 
         return $this->json([
             'cities' => $cities,
@@ -51,16 +49,15 @@ class CityController extends AbstractController
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
      */
-    public function new(Request $request, TranslatorInterface $translator): JsonResponse
+    public function new(Request $request, DocumentManager $dm, TranslatorInterface $translator): JsonResponse
     {
         $city = new City();
         $form = $this->createForm(CityType::class, $city);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine('doctrine_mongodb')->getManager();
-            $em->persist($city);
-            $em->flush();
+            $dm->persist($city);
+            $dm->flush();
 
             $this->addFlash('error', $translator->trans('controller.success.new', [], 'city'));
         }
@@ -78,10 +75,11 @@ class CityController extends AbstractController
      * )
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
-     * @Entity("city", expr="repository.find(id)")
      */
-    public function show(City $city): JsonResponse
+    public function show(DocumentManager $dm, int $id): JsonResponse
     {
+        $city = $dm->getRepository(City::class)->find($id);
+
         return $this->json([
             'city' => $city,
         ]);
@@ -99,15 +97,16 @@ class CityController extends AbstractController
      * )
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
-     * @Entity("city", expr="repository.find(id)")
      */
-    public function update(Request $request, City $city, TranslatorInterface $translator): JsonResponse
+    public function update(Request $request, DocumentManager $dm, int $id, TranslatorInterface $translator): JsonResponse
     {
+        $city = $dm->getRepository(City::class)->find($id);
+
         $form = $this->createForm(CityType::class, $city, ['method' => 'PATCH']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine('doctrine_mongodb')->getManager()->flush();
+            $dm->flush();
 
             $this->addFlash('error', $translator->trans('controller.success.update', [], 'city'));
         }
@@ -125,10 +124,11 @@ class CityController extends AbstractController
      * )
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
-     * @Entity("city", expr="repository.find(id)")
      */
-    public function delete(Request $request, City $city, TranslatorInterface $translator): JsonResponse
+    public function delete(Request $request, DocumentManager $dm, int $id, TranslatorInterface $translator): JsonResponse
     {
+        $city = $dm->getRepository(City::class)->find($id);
+
         try {
             $em = $this->getDoctrine('doctrine_mongodb')->getManager();
             $em->remove($city);

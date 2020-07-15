@@ -33,11 +33,21 @@ services:
             - challenge
     mongo:
         image: mongo
+        hostname: mongodb
+        container_name: mongodb
         restart: always
-        expose:
-            - ${MONGO_PORT}
+        ports:
+            - ${MONGO_PORT}:${MONGO_PORT}
+        # expose:
+        #     - ${MONGO_PORT}
         labels:
             com.symfony.server.service-prefix: 'MONGO'
         environment:
             MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
             MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: ${APP_ENV}
+        volumes:
+            - ./docker/mongodb/mongod.conf:/etc/mongod.conf
+            - ./docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
+            - ./docker/mongodb/data/db/:/data/db/
+            - ./docker/mongodb/data/log/:/var/log/mongodb/

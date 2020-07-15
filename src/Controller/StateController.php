@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Controller;
 
 use App\Document\State;
 use App\Form\StateType;
-use App\DocumentRepository\StateRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,17 +19,17 @@ use Swagger\Annotations as SWG;
 class StateController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("", name="index", methods={"GET"})
      * @SWG\Response(
      *     response=200,
-     *     description="List paginate cities.",
+     *     description="List paginated cities.",
      * )
      * @SWG\Tag(name="state")
      * @NelmioSecurity(name="Bearer")
      */
-    public function index(StateRepository $stateRepository): JsonResponse
+    public function index(DocumentManager $dm): JsonResponse
     {
-        $cities = $stateRepository->findAll();
+        $states = $dm->getRepository(State::class)->findAll();
 
         return $this->json([
             'cities' => $cities,
@@ -51,16 +49,15 @@ class StateController extends AbstractController
      * @SWG\Tag(name="state")
      * @NelmioSecurity(name="Bearer")
      */
-    public function new(Request $request, TranslatorInterface $translator): JsonResponse
+    public function new(Request $request, DocumentManager $dm, TranslatorInterface $translator): JsonResponse
     {
         $state = new State();
         $form = $this->createForm(StateType::class, $state);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine('doctrine_mongodb')->getManager();
-            $em->persist($state);
-            $em->flush();
+            $dm->persist($state);
+            $dm->flush();
 
             $this->addFlash('error', $translator->trans('controller.success.new', [], 'state'));
         }
@@ -78,10 +75,11 @@ class StateController extends AbstractController
      * )
      * @SWG\Tag(name="state")
      * @NelmioSecurity(name="Bearer")
-     * @Entity("state", expr="repository.find(id)")
      */
-    public function show(StateRepository $stateRepository, State $state): JsonResponse
+    public function show(DocumentManager $dm, int $id): JsonResponse
     {
+        $state = $dm->getRepository(State::class)->find($id);
+
         return $this->json([
             'state' => $state,
         ]);
@@ -99,15 +97,16 @@ class StateController extends AbstractController
      * )
      * @SWG\Tag(name="state")
      * @NelmioSecurity(name="Bearer")
-     * @Entity("state", expr="repository.find(id)")
      */
-    public function update(Request $request, State $state, TranslatorInterface $translator): JsonResponse
+    public function update(Request $request, DocumentManager $dm, int $id, TranslatorInterface $translator): JsonResponse
     {
+        $state = $dm->getRepository(State::class)->find($id);
+
         $form = $this->createForm(StateType::class, $state, ['method' => 'PATCH']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine('doctrine_mongodb')->getManager()->flush();
+            $dm->flush();
 
             $this->addFlash('error', $translator->trans('controller.success.update', [], 'state'));
         }
@@ -125,14 +124,14 @@ class StateController extends AbstractController
      * )
      * @SWG\Tag(name="state")
      * @NelmioSecurity(name="Bearer")
-     * @Entity("state", expr="repository.find(id)")
      */
-    public function delete(Request $request, State $state, TranslatorInterface $translator): JsonResponse
+    public function delete(Request $request, DocumentManager $dm, int $id, TranslatorInterface $translator): JsonResponse
     {
+        $state = $dm->getRepository(State::class)->find($id);
+
         try {
-            $em = $this->getDoctrine('doctrine_mongodb')->getManager();
-            $em->remove($state);
-            $em->flush();
+            $dm->remove($state);
+            $dm->flush();
         } catch (\Exception $e) {
             $this->addFlash('error', $translator->trans($e->getMessage(), [], 'state'));
         }
