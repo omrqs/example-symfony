@@ -43,6 +43,14 @@ class State
     private $id;
 
     /**
+     * @var \App\Entity\City
+     *
+     * @ORM\OneToMany(targetEntity="\App\Entity\City", cascade={"persist", "refresh"}, mappedBy="state", fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"id"="desc"})
+     */
+    private $cities;
+
+    /**
      * @var string
      *
      * @Assert\NotBlank(message = "model.not_blank.name")
