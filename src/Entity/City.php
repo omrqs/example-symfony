@@ -65,9 +65,9 @@ class City
     }
 
     /**
-     * Add state as fk.
+     * Set state as fk.
      */
-    public function addState(State $state): self
+    public function setState(State $state): self
     {
         $this->state = $state;
         return $this;

@@ -34,7 +34,7 @@ class CityFixtures extends Fixture implements FixtureInterface, ContainerAwareIn
         foreach ($this->cities as $name => $state) {
             $city = new City();
             $city->name = $name;
-            $city->addState($this->getReference(sprintf('state-%s', strtolower($state))));
+            $city->setState($this->getReference(sprintf('state-%s', strtolower($state))));
             $manager->persist($city);
         }        
 
