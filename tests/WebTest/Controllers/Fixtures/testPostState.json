@@ -1,0 +1,20 @@
+{
+    "request": {
+        "name": "Goias",
+        "abrev": "GO"
+    },
+    "response": {
+        "data": {
+            "state": {
+                "id": 4,
+                "abrev": "GO",
+                "name": "Goias"
+            }
+        },
+        "messages": {
+            "success": [
+                "Registro criado."
+            ]
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "response": {
+        "data": {
+            "state": {
+                "id": 1,
+                "abrev": "rj",
+                "name": "Rio de Janeiro"
+            }
+        },
+        "messages": []
+    }
+}

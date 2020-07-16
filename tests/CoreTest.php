@@ -69,8 +69,8 @@ abstract class CoreTest extends WebTestCase
             // Drop database and recreate schema, then load fixtures and run migrations.
             $this->application->run(new ArrayInput([
                 'doctrine:database:drop',
-                '--env' => 'test',
                 '--force' => null,
+                '--env' => 'test',
                 '--no-interaction' => null,
                 '--quiet' => null,
                 '--no-debug' => null,

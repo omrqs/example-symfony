@@ -11,16 +11,24 @@
     stopOnFailure="false">
     <php>
         <ini name="error_reporting" value="-1" />
+        <env name="PAGINATOR_LIMIT_PER_REQUEST" value="25" />
     </php>
 
     <testsuites>
         <!-- Manual execution order. -->
-        <testsuite name="Application">
+        <testsuite name="WebTestCase">
             <!-- Configure -->
             <file>tests/ConfigureTest.php</file>
             <!-- Controllers -->
-            <file>tests/WebTest/Controllers/StateTest.php</file> 
-            <file>tests/WebTest/Controllers/CityTest.php</file> 
+            <file>tests/WebTest/Controllers/IndexTest.php</file>
+            <file>tests/WebTest/Controllers/StateTest.php</file>
+            <file>tests/WebTest/Controllers/CityTest.php</file>
+            <!-- openAPI -->
+            <file>tests/WebTest/Controllers/DocTest.php</file>
+        </testsuite>
+        <testsuite name="Units">
+            <!-- Helpers -->
+            <file>tests/Unit/Helpers/CoreHelperTest.php</file>
         </testsuite>
     </testsuites>
     

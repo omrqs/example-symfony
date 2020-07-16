@@ -1,0 +1,20 @@
+{
+    "request": {
+        "name": "Espírito Santo",
+        "abrev": "ES"
+    },
+    "response": {
+        "data": {
+            "state": {
+                "id": 1,
+                "abrev": "ES",
+                "name": "Espírito Santo"
+            }
+        },
+        "messages": {
+            "success": [
+                "Registro atualizado."
+            ]
+        }
+    }
+}

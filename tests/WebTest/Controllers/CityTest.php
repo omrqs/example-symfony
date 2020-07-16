@@ -9,14 +9,6 @@ class CityTest extends \App\Tests\CoreTest
     public $testId = 1;
 
     /**
-     * @var array
-     */
-    public $mockData = [
-        'state' => 1,
-        'name' => 'Resende',
-    ];
-
-    /**
      * Test list cities.
      */
     public function testGetCities()
@@ -30,20 +22,36 @@ class CityTest extends \App\Tests\CoreTest
         );
 
         $response = $this->client->getResponse();
-
+        
         $this->assertSame(200, $response->getStatusCode());
-
+        
         $this->assertTrue(
             $response->headers->contains(
                 'Content-Type',
                 'application/json'
             )
         );
+            
+        ['data' => $data, 'paginator' => $paginator, 'messages' => $messages] = json_decode($response->getContent(), true);
+        
+        $this->assertArrayHasKey('cities', $data);
 
-        $responseData = json_decode($response->getContent(), true);
-        $this->assertEquals(true, isset($responseData['data']));
-        $this->assertEquals(true, isset($responseData['paginator']));
-        $this->assertEquals(true, isset($responseData['messages']));
+        $this->assertArrayHasKey('current', $paginator);
+        $this->assertArrayHasKey('last', $paginator);
+        $this->assertArrayHasKey('current', $paginator);
+        $this->assertArrayHasKey('numItemsPerPage', $paginator);
+        $this->assertArrayHasKey('first', $paginator);
+        $this->assertArrayHasKey('pageCount', $paginator);
+        $this->assertArrayHasKey('totalCount', $paginator);
+        $this->assertArrayHasKey('pageRange', $paginator);
+        $this->assertArrayHasKey('startPage', $paginator);
+        $this->assertArrayHasKey('endPage', $paginator);
+        $this->assertArrayHasKey('pagesInRange', $paginator);
+        $this->assertArrayHasKey('firstPageInRange', $paginator);
+        $this->assertArrayHasKey('lastPageInRange', $paginator);
+        $this->assertArrayHasKey('currentItemCount', $paginator);
+        $this->assertArrayHasKey('firstItemNumber', $paginator);
+        $this->assertArrayHasKey('lastItemNumber', $paginator);
     }
 
     /**
@@ -51,13 +59,15 @@ class CityTest extends \App\Tests\CoreTest
      */
     public function testPostCity()
     {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPostCity.json'), true);
+
         $this->client->xmlHttpRequest(
             'POST',
             $this->router->generate('city_new'),
             [],
             [],
             self::$loggedHeaders,
-            json_encode($this->mockData)
+            json_encode($mock['request'])
         );
 
         $response = $this->client->getResponse();
@@ -71,20 +81,25 @@ class CityTest extends \App\Tests\CoreTest
             )
         );
 
-        $responseData = json_decode($response->getContent(), true);
-        $this->assertEquals(true, isset($responseData['data']['id']));
-        $this->assertEquals(true, isset($responseData['messages']['success']));
+        $respBody = json_decode($response->getContent(), true);
+        ['data' => $data, 'messages' => $messages] = $respBody;
 
-        if (isset($responseData['data']['id'])) {
-            $this->testId = $responseData['data']['id'];
-        }
+        $this->assertEquals($mock['response'], $respBody);
+
+        $this->assertArrayHasKey('city', $data);
+        $this->assertArrayHasKey('id', $data['city']);
+        $this->assertArrayHasKey('success', $messages);
     }
 
     /**
      * Test get city by id.
+     * 
+     * @depends testPostCity
      */
     public function testGetCity()
     {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testGetCity.json'), true);
+
         $this->client->xmlHttpRequest(
             'GET',
             $this->router->generate('city_show', ['id' => $this->testId]),
@@ -104,24 +119,30 @@ class CityTest extends \App\Tests\CoreTest
             )
         );
 
-        $responseData = json_decode($response->getContent(), true);
-        $this->assertEquals(true, isset($responseData['data']['id']));
+        $respBody = json_decode($response->getContent(), true);
+        ['data' => $data] = $respBody;
+
+        $this->assertEquals($mock['response'], $respBody);
+
+        $this->assertArrayHasKey('id', $data['city']);
     }
 
     /**
      * Test update a city.
+     * 
+     * @depends testGetCity
      */
     public function testPatchCity()
     {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPatchCity.json'), true);
+
         $this->client->xmlHttpRequest(
             'PATCH',
             $this->router->generate('city_update', ['id' => $this->testId]),
             [],
             [],
             self::$loggedHeaders,
-            json_encode([
-                'name' => 'Patched Test City',
-            ])
+            json_encode($mock['request'])
         );
 
         $response = $this->client->getResponse();
@@ -135,16 +156,24 @@ class CityTest extends \App\Tests\CoreTest
             )
         );
 
-        $responseData = json_decode($response->getContent(), true);
-        $this->assertEquals('Patched Test City', $responseData['data']['name']);
-        $this->assertEquals(true, isset($responseData['messages']['success']));
+        $respBody = json_decode($response->getContent(), true);
+        ['data' => $data, 'messages' => $messages] = $respBody;
+
+        $this->assertEquals($mock['response'], $respBody);
+
+        $this->assertArrayHasKey('name', $data['city']);
+        $this->assertArrayHasKey('success', $messages);
     }
 
     /**
      * Test delete a city.
+     * 
+     * @depends testPatchCity
      */
     public function testDeleteCity()
     {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testDeleteCity.json'), true);
+
         $this->client->xmlHttpRequest(
             'DELETE',
             $this->router->generate('city_delete', ['id' => $this->testId]),
@@ -164,7 +193,12 @@ class CityTest extends \App\Tests\CoreTest
             )
         );
 
-        $responseData = json_decode($response->getContent(), true);
-        $this->assertEquals(true, isset($responseData['messages']['success']));
+        $respBody = json_decode($response->getContent(), true);
+        ['messages' => $messages] = $respBody;
+
+        $this->assertEquals($mock['response'], $respBody);
+
+
+        $this->assertArrayHasKey('success', $messages);
     }
 }
