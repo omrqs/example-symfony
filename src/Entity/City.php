@@ -80,7 +80,7 @@ class City
     {
         return [
             'id' => $this->id,
-            'state' => (string) $this->state,
+            'state' => $this->state ? $this->state->toArray() : [],
             'name' => $this->name,
         ];
     }
