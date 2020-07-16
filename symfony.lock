@@ -99,18 +99,6 @@
     "doctrine/migrations": {
         "version": "2.2.1"
     },
-    "doctrine/mongodb-odm": {
-        "version": "2.1.2"
-    },
-    "doctrine/mongodb-odm-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "1fd8598bf42227a1c8905edd32f640e4c5d15eff"
-        }
-    },
     "doctrine/orm": {
         "version": "v2.7.3"
     },
@@ -141,9 +129,6 @@
     "gitonomy/gitlib": {
         "version": "v1.2.1"
     },
-    "jean85/pretty-package-versions": {
-        "version": "1.5.0"
-    },
     "justinrainbow/json-schema": {
         "version": "5.2.10"
     },
@@ -161,9 +146,6 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
-    },
-    "mongodb/mongodb": {
-        "version": "1.6.1"
     },
     "monolog/monolog": {
         "version": "1.25.4"
@@ -320,6 +302,9 @@
     "symfony/asset": {
         "version": "v4.4.10"
     },
+    "symfony/browser-kit": {
+        "version": "v4.4.10"
+    },
     "symfony/cache": {
         "version": "v5.1.2"
     },
@@ -340,6 +325,9 @@
         "files": [
             "bin/console"
         ]
+    },
+    "symfony/css-selector": {
+        "version": "v4.4.10"
     },
     "symfony/debug": {
         "version": "v4.4.10"
@@ -364,6 +352,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v5.1.2"
+    },
+    "symfony/dom-crawler": {
+        "version": "v4.4.10"
     },
     "symfony/dotenv": {
         "version": "v5.1.2"

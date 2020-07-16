@@ -5,7 +5,6 @@
         "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "doctrine/mongodb-odm-bundle": "^4.2",
         "nelmio/api-doc-bundle": "^3.6",
         "predis/predis": "^1.1",
         "sensio/framework-extra-bundle": "^5.5",
@@ -69,9 +68,7 @@
             "security-checker security:check": "script",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
+        "post-install-cmd": [],
         "post-update-cmd": [
             "@auto-scripts"
         ],
@@ -82,10 +79,11 @@
             "php bin/console assets:install"
         ],
         "create-db": [
-            "php bin/console doctrine:database:create"
+            "php bin/console doctrine:database:create -q",
+            "php bin/console doctrine:schema:create -q"
         ],
         "update-db": [
-            "php bin/console doctrine:schema:update --force"
+            "php bin/console doctrine:schema:update --force -q"
         ],
         "load-fixtures-db": [
             "php bin/console doctrine:fixtures:load -n"
@@ -94,10 +92,9 @@
             "mkdir -p ./var/log && chmod -Rf 777 ./var/log",
             "mkdir -p ./var/cache && chmod -Rf 777 ./var/cache",
             "php /usr/local/bin/composer i",
-            "@post-root-package-install",
-            "@install-assets",
             "@create-db",
-            "@update-db"
+            "@post-root-package-install",
+            "@install-assets"
         ],
         "server-dump": [
             "php bin/console server:dump",

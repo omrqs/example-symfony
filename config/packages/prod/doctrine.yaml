@@ -1,20 +1,23 @@
 doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver: '%env(resolve:DB_DRIVER)%'
+                server_version: '%env(resolve:DB_VERSION)%'
+                charset: utf8
+                url: '%env(resolve:DATABASE_URL)%'
+                persistent: false
+            only_read:
+                driver: '%env(resolve:DB_DRIVER)%'
+                server_version: '%env(resolve:DB_VERSION)%'
+                charset: utf8
+                url: '%env(resolve:DATABASE_URL_READ)%'
+                persistent: false
     orm:
-        auto_generate_proxy_classes: false
-        metadata_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        query_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        result_cache_driver:
-            type: pool
-            pool: doctrine.result_cache_pool
-
-framework:
-    cache:
-        pools:
-            doctrine.result_cache_pool:
-                adapter: cache.app
-            doctrine.system_cache_pool:
-                adapter: cache.system
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+            only_read:
+                connection: only_read

@@ -17,8 +17,8 @@ services:
             - mysqldb
         volumes:
             - ./:${CONTAINER_PATH}
-            - ./docker/custom.ini.local:/usr/local/etc/php/conf.d/custom.ini
-            - ./docker/entrypoint.local.sh:${CONTAINER_PATH}/entrypoint.sh
+            - ./docker/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+            - ./docker/entrypoint.sh:${CONTAINER_PATH}/entrypoint.sh
         working_dir: ${CONTAINER_PATH}
         entrypoint: ["sh", "${CONTAINER_PATH}/entrypoint.sh"]
         networks:
