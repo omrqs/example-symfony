@@ -12,8 +12,8 @@ class StateTest extends \App\Tests\CoreTest
      * @var array
      */
     public $mockData = [
-        'name' => 'Rio de Janeiro',
-        'abrev' => 'RJ',
+        'name' => 'Goias',
+        'abrev' => 'GO',
     ];
 
     /**

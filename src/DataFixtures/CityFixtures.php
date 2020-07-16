@@ -21,9 +21,9 @@ class CityFixtures extends Fixture implements FixtureInterface, ContainerAwareIn
      * @var array
      */
     public $cities = [
-        'Rio de Janeiro' => 'RJ',
-        'Itaipava' => 'RJ',
-        'Paraty' => 'RJ',
+        'Rio de Janeiro' => 'rj',
+        'Itaipava' => 'rj',
+        'Paraty' => 'rj',
     ];
 
     /**
@@ -34,7 +34,7 @@ class CityFixtures extends Fixture implements FixtureInterface, ContainerAwareIn
         foreach ($this->cities as $name => $state) {
             $city = new City();
             $city->name = $name;
-            $city->state = $this->addReference(sprintf('state-%s', $state));
+            $city->addState($this->getReference(sprintf('state-%s', strtolower($state))));
             $manager->persist($city);
         }        
 

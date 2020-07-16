@@ -57,7 +57,7 @@ abstract class CoreTest extends WebTestCase
             'X-API-KEY' => getenv('DEFAULT_ACCESS_TOKEN'),
         ]);
 
-        // $this->buildDb();
+        $this->buildDb();
     }
 
     /**
@@ -66,14 +66,47 @@ abstract class CoreTest extends WebTestCase
     protected function buildDb()
     {
         try {
-            // Drop database and recreate schema, then load fixtures.
+            // Drop database and recreate schema, then load fixtures and run migrations.
             $this->application->run(new ArrayInput([
                 'doctrine:database:drop',
-                '--force' => true,
                 '--env' => 'test',
-                '--no-interaction' => true,
-                '--quiet' => true,
-                '--no-debug' => true,
+                '--force' => null,
+                '--no-interaction' => null,
+                '--quiet' => null,
+                '--no-debug' => null,
+            ]));
+
+            $this->application->run(new ArrayInput([
+                'doctrine:database:create',
+                '--env' => 'test',
+                '--no-interaction' => null,
+                '--quiet' => null,
+                '--no-debug' => null,
+            ]));
+
+            $this->application->run(new ArrayInput([
+                'doctrine:schema:create',
+                '--env' => 'test',
+                '--no-interaction' => null,
+                '--quiet' => null,
+                '--no-debug' => null,
+            ]));
+
+            $this->application->run(new ArrayInput([
+                'doctrine:fixtures:load',
+                '--env' => 'test',
+                '--no-interaction' => null,
+                '--quiet' => null,
+                '--no-debug' => null,
+            ]));
+
+            $this->application->run(new ArrayInput([
+                'doctrine:migrations:migrate',
+                '--env' => 'test',
+                '--allow-no-migration' => null,
+                '--no-interaction' => null,
+                '--quiet' => null,
+                '--no-debug' => null,
             ]));
 
             return true;

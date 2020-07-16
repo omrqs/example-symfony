@@ -13,17 +13,17 @@ class CityTest extends \App\Tests\CoreTest
      */
     public $mockData = [
         'state' => 1,
-        'name' => 'Itaipava',
+        'name' => 'Resende',
     ];
 
     /**
-     * Test list states.
+     * Test list cities.
      */
-    public function testGetCitys()
+    public function testGetCities()
     {
         $this->client->xmlHttpRequest(
             'GET',
-            $this->router->generate('state_index'),
+            $this->router->generate('city_index'),
             [],
             [],
             self::$loggedHeaders
@@ -47,13 +47,13 @@ class CityTest extends \App\Tests\CoreTest
     }
 
     /**
-     * Test new state.
+     * Test new city.
      */
     public function testPostCity()
     {
         $this->client->xmlHttpRequest(
             'POST',
-            $this->router->generate('state_new'),
+            $this->router->generate('city_new'),
             [],
             [],
             self::$loggedHeaders,
@@ -81,13 +81,13 @@ class CityTest extends \App\Tests\CoreTest
     }
 
     /**
-     * Test get state by id.
+     * Test get city by id.
      */
     public function testGetCity()
     {
         $this->client->xmlHttpRequest(
             'GET',
-            $this->router->generate('state_show', ['id' => $this->testId]),
+            $this->router->generate('city_show', ['id' => $this->testId]),
             [],
             [],
             self::$loggedHeaders
@@ -109,13 +109,13 @@ class CityTest extends \App\Tests\CoreTest
     }
 
     /**
-     * Test update a state.
+     * Test update a city.
      */
     public function testPatchCity()
     {
         $this->client->xmlHttpRequest(
             'PATCH',
-            $this->router->generate('state_update', ['id' => $this->testId]),
+            $this->router->generate('city_update', ['id' => $this->testId]),
             [],
             [],
             self::$loggedHeaders,
@@ -141,13 +141,13 @@ class CityTest extends \App\Tests\CoreTest
     }
 
     /**
-     * Test delete a state.
+     * Test delete a city.
      */
     public function testDeleteCity()
     {
         $this->client->xmlHttpRequest(
             'DELETE',
-            $this->router->generate('state_delete', ['id' => $this->testId]),
+            $this->router->generate('city_delete', ['id' => $this->testId]),
             [],
             [],
             self::$loggedHeaders

@@ -65,6 +65,15 @@ class City
     }
 
     /**
+     * Add state as fk.
+     */
+    public function addState(State $state): self
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    /**
      * Object to array.
      */
     public function toArray(): array
