@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Document\City;
+use App\Entity\City;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -17,6 +17,9 @@ class CityFixtures extends Fixture implements FixtureInterface, ContainerAwareIn
 {
     use ContainerAwareTrait;
 
+    /**
+     * @var array
+     */
     public $cities = [
         'Rio de Janeiro' => 'RJ',
         'Itaipava' => 'RJ',
@@ -30,13 +33,12 @@ class CityFixtures extends Fixture implements FixtureInterface, ContainerAwareIn
     {
         foreach ($this->cities as $name => $state) {
             $city = new City();
-            $city->name($name);
-            $city->state($this->addReference(sprintf('state-%s', $state)));
+            $city->name = $name;
+            $city->state = $this->addReference(sprintf('state-%s', $state));
             $manager->persist($city);
+        }        
 
-            $manager->flush();
-        }
-
+        $manager->flush();
         $manager->clear();
     }
 

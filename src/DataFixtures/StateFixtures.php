@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Document\State;
+use App\Entity\State;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -17,6 +17,9 @@ class StateFixtures extends Fixture implements FixtureInterface, ContainerAwareI
 {
     use ContainerAwareTrait;
 
+    /**
+     * @var array
+     */
     private $states = [
         'Rio de Janeiro' => 'rj',
         'São Paulo' => 'sp',
@@ -28,17 +31,16 @@ class StateFixtures extends Fixture implements FixtureInterface, ContainerAwareI
      */
     public function load(ObjectManager $manager)
     {
-        foreach ($this->cities as $name => $abrev) {
+        foreach ($this->states as $name => $abrev) {
             $state = new State();
-            $state->setName($name);
-            $state->setAbrev($abrev);
+            $state->name = $name;
+            $state->abrev = $abrev;
             $manager->persist($state);
 
-            $manager->flush();
-            
             $this->addReference(sprintf('state-%s', $abrev), $state);
         }
-
+        
+        $manager->flush();
         $manager->clear();
     }
 
