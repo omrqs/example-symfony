@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\City;
+use App\Document\City;
 use App\Form\CityType;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model as NelmioModel;
 use Nelmio\ApiDocBundle\Annotation\Security as NelmioSecurity;
 use Swagger\Annotations as SWG;
@@ -23,24 +22,17 @@ class CityController extends AbstractController
      * @Route("", name="index", methods={"GET"})
      * @SWG\Response(
      *     response=200,
-     *     description="List cities paginated.",
+     *     description="List paginated cities.",
      * )
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
      */
-    public function index(Request $request, PaginatorInterface $paginator): JsonResponse
+    public function index(DocumentManager $dm): JsonResponse
     {
-        // pagination
-        $pagination = $paginator->paginate(
-            $this->getDoctrine()->getRepository(City::class)->queryToPaginate($request->query->all()),
-            $request->query->get('page', 1),
-            $request->query->get('limit', getenv('PAGINATOR_LIMIT_PER_REQUEST'))
-        );
-        // end pagination
+        $cities = $dm->getRepository(City::class)->findAll();
 
         return $this->json([
-            'data' => \App\Helper\CoreHelper::objectsToArray($pagination->getItems()),
-            'paginator' => $pagination->getPaginationData(),
+            'cities' => $cities,
         ]);
     }
 
@@ -57,26 +49,21 @@ class CityController extends AbstractController
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
      */
-    public function new(Request $request, TranslatorInterface $translator): JsonResponse
+    public function new(Request $request, DocumentManager $dm, TranslatorInterface $translator): JsonResponse
     {
         $city = new City();
         $form = $this->createForm(CityType::class, $city);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($city);
-            $em->flush();
+            $dm->persist($city);
+            $dm->flush();
 
-            $this->addFlash('success', $translator->trans('controller.success.new', [], 'city'));
-        } else {
-            foreach ($form->getErrors(true) as $key => $error) {
-                $this->addFlash('error', $translator->trans($error->getMessage(), [], 'city'));
-            }
+            $this->addFlash('error', $translator->trans('controller.success.new', [], 'city'));
         }
 
         return $this->json([
-            'city' => $city->toArray(),
+            'city' => $city,
         ]);
     }
 
@@ -89,10 +76,12 @@ class CityController extends AbstractController
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
      */
-    public function show(City $city): JsonResponse
+    public function show(DocumentManager $dm, int $id): JsonResponse
     {
+        $city = $dm->getRepository(City::class)->find($id);
+
         return $this->json([
-            'city' => $city->toArray(),
+            'city' => $city,
         ]);
     }
 
@@ -109,22 +98,21 @@ class CityController extends AbstractController
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
      */
-    public function update(Request $request, City $city, TranslatorInterface $translator): JsonResponse
+    public function update(Request $request, DocumentManager $dm, int $id, TranslatorInterface $translator): JsonResponse
     {
+        $city = $dm->getRepository(City::class)->find($id);
+
         $form = $this->createForm(CityType::class, $city, ['method' => 'PATCH']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $dm->flush();
 
-            $this->addFlash('success', $translator->trans('controller.success.update', [], 'city'));
-        } else {
-            foreach ($form->getErrors(true) as $key => $error) {
-                $this->addFlash('error', $translator->trans($error->getMessage(), [], 'city'));
-            }
+            $this->addFlash('error', $translator->trans('controller.success.update', [], 'city'));
         }
+
         return $this->json([
-            'city' => $city->toArray(),
+            'city' => $city,
         ]);
     }
 
@@ -137,13 +125,16 @@ class CityController extends AbstractController
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
      */
-    public function delete(City $city, TranslatorInterface $translator): JsonResponse
+    public function delete(Request $request, DocumentManager $dm, int $id, TranslatorInterface $translator): JsonResponse
     {
+        $city = $dm->getRepository(City::class)->find($id);
+
         try {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine('doctrine_mongodb')->getManager();
             $em->remove($city);
             $em->flush();
-            $this->addFlash('success', $translator->trans('controller.success.delete', [], 'city'));
+
+            $this->addFlash('error', $translator->trans('controller.success.delete', [], 'city'));
         } catch (\Exception $e) {
             $this->addFlash('error', $translator->trans($e->getMessage(), [], 'city'));
         }
