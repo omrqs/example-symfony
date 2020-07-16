@@ -39,7 +39,7 @@ class StateController extends AbstractController
         // end pagination
 
         return $this->json([
-            'data' => \App\Helper\CoreHelper::objectsToArray($pagination->getItems()),
+            'data' => ['states' => \App\Helper\CoreHelper::objectsToArray($pagination->getItems())],
             'paginator' => $pagination->getPaginationData(),
         ]);
     }
