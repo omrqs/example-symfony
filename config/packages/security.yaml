@@ -9,6 +9,9 @@ security:
         doc:
             pattern: ^/doc
             security: false
+        main:
+            pattern: /
+            security: false
         api:
             pattern: ^/
             host: '%env(APP_URL)%'

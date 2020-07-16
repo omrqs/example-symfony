@@ -10,7 +10,9 @@
         "predis/predis": "^1.1",
         "sensio/framework-extra-bundle": "^5.5",
         "snc/redis-bundle": "^3.2",
+        "knplabs/knp-paginator-bundle": "^5.2",
         "symfony/console": "*",
+        "symfony/monolog-bundle": "*",
         "symfony/dotenv": "*",
         "symfony/flex": "*",
         "symfony/form": "*",
@@ -20,15 +22,21 @@
         "symfony/orm-pack": "*",
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+        "symfony/asset": "*",
+        "symfony/serializer": "*",
+        "symfony/serializer-pack": "*"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
         "symfony/maker-bundle": "^1.19",
         "symfony/web-server-bundle": "*",
         "symfony/debug-bundle": "*",
         "symfony/var-dumper": "*",
+        "symfony/phpunit-bridge": "*",
+        "phpunit/phpunit": "^7.5",
         "phpro/grumphp": "^0.15.2",
-        "phpunit/phpunit": "^7.5"
+        "friendsofphp/php-cs-fixer": "^2"
     },
     "config": {
         "optimize-autoloader": true,
@@ -73,18 +81,30 @@
         "install-assets": [
             "php bin/console assets:install"
         ],
+        "create-db": [
+            "php bin/console doctrine:database:create"
+        ],
+        "update-db": [
+            "php bin/console doctrine:schema:update --force"
+        ],
+        "load-fixtures-db": [
+            "php bin/console doctrine:fixtures:load -n"
+        ],
         "setup": [
             "mkdir -p ./var/log && chmod -Rf 777 ./var/log",
             "mkdir -p ./var/cache && chmod -Rf 777 ./var/cache",
             "php /usr/local/bin/composer i",
             "@post-root-package-install",
-            "@install-assets"
+            "@install-assets",
+            "@create-db",
+            "@update-db"
         ],
         "server-dump": [
             "php bin/console server:dump",
             "@server-start"
         ],
         "server-start": [
+            "@update-db",
             "php bin/console server:run 0.0.0.0:80"
         ]
     },
@@ -93,7 +113,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "4.4.*"
         },
         "incenteev-parameters": {
