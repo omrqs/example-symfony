@@ -4,17 +4,17 @@ networks:
         driver: bridge
 services:
     web:
-        image: omrqs/php7.x-sf:php-7.4-mongodb
+        image: omrqs/php7.x-sf:php-7.4-dev
         container_name: challenge
         restart: always
         depends_on:
             - redis
-            - mongodb
+            - mysqldb
         ports:
             - ${UPSTREAM_PORT}:${UPSTREAM_PORT}
         links: 
             - redis
-            - mongodb
+            - mysqldb
         volumes:
             - ./:${CONTAINER_PATH}
             - ./docker/custom.ini.local:/usr/local/etc/php/conf.d/custom.ini
@@ -31,20 +31,18 @@ services:
             - ${REDIS_PORT}
         networks:
             - challenge
-    mongodb:
-        image: mongo
-        restart: always
+    mysqldb:
+        image: mysql:5.7
         ports:
-            - ${MONGODB_PORT}:${MONGODB_PORT}
-        # env_file:
-        #     - .env
-        labels:
-            com.symfony.server.service-prefix: 'MONGO'
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+            - ${DB_PORT}:${DB_PORT}
         volumes:
-            - ./docker/mongodb/mongod.conf:/etc/mongod.conf
-            - ./docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
-            - ./docker/mongodb/data/db/:/data/db/
-            - ./docker/mongodb/data/log/:/var/log/mongodb/
+            - "./var/.mysql/db:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        networks:
+            - challenge
+            
