@@ -8,3 +8,8 @@ controller:
         new: Registro criado.
         update: Registro atualizado.
         delete: Registro removido.
+    error:
+        delete: Falhou ao remover o registro.
+unique:
+    name: Nome da cidade já existe
+        
