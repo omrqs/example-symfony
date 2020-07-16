@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,5 +21,20 @@ class IndexController extends AbstractController
     public function index()
     {
         return $this->redirectToRoute('app.swagger_ui');
+    }
+
+    /**
+     * @Route("/healthy", name="healthy", methods={"GET"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Healthy route of API.",
+     * )
+     * @SWG\Tag(name="main")
+     */
+    public function healthy(TranslatorInterface $translator)
+    {
+        $this->addFlash('info', $translator->trans('controller.success.healthy', [], 'main'));
+
+        return $this->json([]);
     }
 }
