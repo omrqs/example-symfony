@@ -12,11 +12,12 @@ class IndexController extends AbstractController
 {
     /**
      * @Route("", name="index", methods={"GET"})
+     *
      * @SWG\Response(
-     *     response=200,
-     *     description="Index route of API.",
+     *     response=302,
+     *     description="Index route of API. Redirecting to UI API doc.",
      * )
-     * @SWG\Tag(name="main")
+     * @SWG\Tag(name="index")
      */
     public function index()
     {
@@ -25,11 +26,12 @@ class IndexController extends AbstractController
 
     /**
      * @Route("/healthy", name="healthy", methods={"GET"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Healthy route of API.",
      * )
-     * @SWG\Tag(name="main")
+     * @SWG\Tag(name="healthy")
      */
     public function healthy(TranslatorInterface $translator)
     {

@@ -7,12 +7,14 @@
     <arg name="colors"/>
     <arg name="ignore" value="server.php,resources/views" />
 
+    <file>bin/</file>
+    <file>config/</file>
+    <file>public/</file>
+    <file>src/</file>
+    <file>tests/</file>
+
     <!-- Ignore warnings and show progress of the run -->
     <arg value="nps"/>
 
-    <!-- Folders that will be tracked -->
-    <file>src</file>
-    <file>config</file>
-    <file>public</file>
-    <file>tests</file>
+    <rule ref="PSR2"/>
 </ruleset>

@@ -21,6 +21,7 @@ class StateController extends AbstractController
 {
     /**
      * @Route("", name="index", methods={"GET"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="List states paginated.",
@@ -56,6 +57,7 @@ class StateController extends AbstractController
      *     description="Page of pagination"
      * )
      * @SWG\Tag(name="state")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function index(Request $request, PaginatorInterface $paginator): JsonResponse
@@ -76,12 +78,14 @@ class StateController extends AbstractController
 
     /**
      * @Route("", name="new", methods={"POST"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Create a new state",
      *     @SWG\Schema(@SWG\Items(ref=@NelmioModel(type=StateType::class)))
      * )
      * @SWG\Tag(name="state")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function new(Request $request, TranslatorInterface $translator): JsonResponse
@@ -109,11 +113,13 @@ class StateController extends AbstractController
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Show state details.",
      * )
      * @SWG\Tag(name="state")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function show(State $state): JsonResponse
@@ -125,12 +131,14 @@ class StateController extends AbstractController
 
     /**
      * @Route("/{id}", name="update", methods={"PATCH"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Update a state",
      *     @SWG\Schema(@SWG\Items(ref=@NelmioModel(type=StateType::class)))
      * )
      * @SWG\Tag(name="state")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function update(Request $request, State $state, TranslatorInterface $translator): JsonResponse
@@ -147,6 +155,7 @@ class StateController extends AbstractController
                 $this->addFlash('error', $translator->trans($error->getMessage(), [], 'state'));
             }
         }
+
         return $this->json([
             'state' => $state->toArray(),
         ]);
@@ -154,11 +163,13 @@ class StateController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Delete a state",
      * )
      * @SWG\Tag(name="state")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function delete(State $state, TranslatorInterface $translator): JsonResponse

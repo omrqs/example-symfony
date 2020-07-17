@@ -16,12 +16,12 @@ class StateType extends AbstractType
             ->add('name', TextType::class, [
                 'documentation' => [
                     'description' => 'Name of state.',
-                ]
+                ],
             ])
             ->add('abrev', TextType::class, [
                 'documentation' => [
                     'description' => 'Abbreviation of state.',
-                ]
+                ],
             ])
         ;
     }

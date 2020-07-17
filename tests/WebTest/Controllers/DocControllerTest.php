@@ -1,7 +1,12 @@
 <?php
 namespace App\Tests\WebTest\Controllers;
 
-class DocTest extends \App\Tests\CoreTest
+use App\Tests\AbstractCoreTest;
+
+/**
+ * Tests of API doc (openAPI).
+ */
+class DocControllerTest extends AbstractCoreTest
 {
     /**
      * Test API doc json (openAPI).

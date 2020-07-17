@@ -52,6 +52,7 @@ class City
      * @var string
      *
      * @Assert\NotBlank(message = "model.not_blank.name")
+     *
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
@@ -70,6 +71,7 @@ class City
     public function setState(State $state): self
     {
         $this->state = $state;
+
         return $this;
     }
 

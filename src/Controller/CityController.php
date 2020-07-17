@@ -21,6 +21,7 @@ class CityController extends AbstractController
 {
     /**
      * @Route("", name="index", methods={"GET"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="List cities paginated.",
@@ -56,6 +57,7 @@ class CityController extends AbstractController
      *     description="Page of pagination"
      * )
      * @SWG\Tag(name="city")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function index(Request $request, PaginatorInterface $paginator): JsonResponse
@@ -76,12 +78,14 @@ class CityController extends AbstractController
 
     /**
      * @Route("", name="new", methods={"POST"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Create a new city",
      *     @SWG\Schema(@SWG\Items(ref=@NelmioModel(type=CityType::class)))
      * )
      * @SWG\Tag(name="city")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function new(Request $request, TranslatorInterface $translator): JsonResponse
@@ -109,11 +113,13 @@ class CityController extends AbstractController
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Show city details.",
      * )
      * @SWG\Tag(name="city")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function show(City $city): JsonResponse
@@ -125,12 +131,14 @@ class CityController extends AbstractController
 
     /**
      * @Route("/{id}", name="update", methods={"PATCH"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Update a city",
      *     @SWG\Schema(@SWG\Items(ref=@NelmioModel(type=CityType::class)))
      * )
      * @SWG\Tag(name="city")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function update(Request $request, City $city, TranslatorInterface $translator): JsonResponse
@@ -147,6 +155,7 @@ class CityController extends AbstractController
                 $this->addFlash('error', $translator->trans($error->getMessage(), [], 'city'));
             }
         }
+
         return $this->json([
             'city' => $city->toArray(),
         ]);
@@ -154,11 +163,13 @@ class CityController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Delete a city",
      * )
      * @SWG\Tag(name="city")
+     *
      * @NelmioSecurity(name="Bearer")
      */
     public function delete(City $city, TranslatorInterface $translator): JsonResponse

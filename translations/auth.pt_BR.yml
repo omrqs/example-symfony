@@ -1,3 +1,7 @@
 authenticator:
     token:
         failure: "Credencial de acesso inválida."
+controller:
+    success:
+        session: Sessão válida!
+        

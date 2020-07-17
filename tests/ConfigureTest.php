@@ -2,7 +2,9 @@
 
 namespace App\Tests;
 
-class ConfigureTest extends \App\Tests\CoreTest
+use App\Tests\AbstractCoreTest;
+
+class ConfigureTest extends AbstractCoreTest
 {
     /**
      * Configure environment.

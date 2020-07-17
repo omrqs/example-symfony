@@ -1,7 +1,9 @@
 <?php
 namespace App\Tests\WebTest\Controllers;
 
-class CityTest extends \App\Tests\CoreTest
+use App\Tests\AbstractCoreTest;
+
+class StateControllerTest extends AbstractCoreTest
 {
     /**
      * @var int
@@ -9,13 +11,13 @@ class CityTest extends \App\Tests\CoreTest
     public $testId = 1;
 
     /**
-     * Test list cities.
+     * Test list states.
      */
-    public function testGetCities()
+    public function testGetStates()
     {
         $this->client->xmlHttpRequest(
             'GET',
-            $this->router->generate('city_index'),
+            $this->router->generate('state_index'),
             [],
             [],
             self::$loggedHeaders
@@ -34,7 +36,7 @@ class CityTest extends \App\Tests\CoreTest
             
         ['data' => $data, 'paginator' => $paginator, 'messages' => $messages] = json_decode($response->getContent(), true);
         
-        $this->assertArrayHasKey('cities', $data);
+        $this->assertArrayHasKey('states', $data);
 
         $this->assertArrayHasKey('current', $paginator);
         $this->assertArrayHasKey('last', $paginator);
@@ -55,15 +57,15 @@ class CityTest extends \App\Tests\CoreTest
     }
 
     /**
-     * Test new city.
+     * Test new state.
      */
-    public function testPostCity()
+    public function testPostState()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPostCity.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPostState.json'), true);
 
         $this->client->xmlHttpRequest(
             'POST',
-            $this->router->generate('city_new'),
+            $this->router->generate('state_new'),
             [],
             [],
             self::$loggedHeaders,
@@ -86,23 +88,23 @@ class CityTest extends \App\Tests\CoreTest
 
         $this->assertEquals($mock['response'], $respBody);
 
-        $this->assertArrayHasKey('city', $data);
-        $this->assertArrayHasKey('id', $data['city']);
+        $this->assertArrayHasKey('state', $data);
+        $this->assertArrayHasKey('id', $data['state']);
         $this->assertArrayHasKey('success', $messages);
     }
 
     /**
-     * Test get city by id.
-     * 
-     * @depends testPostCity
+     * Test get state by id.
+     *
+     * @depends testPostState
      */
-    public function testGetCity()
+    public function testGetState()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testGetCity.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testGetState.json'), true);
 
         $this->client->xmlHttpRequest(
             'GET',
-            $this->router->generate('city_show', ['id' => $this->testId]),
+            $this->router->generate('state_show', ['id' => $this->testId]),
             [],
             [],
             self::$loggedHeaders
@@ -124,21 +126,21 @@ class CityTest extends \App\Tests\CoreTest
 
         $this->assertEquals($mock['response'], $respBody);
 
-        $this->assertArrayHasKey('id', $data['city']);
+        $this->assertArrayHasKey('id', $data['state']);
     }
 
     /**
-     * Test update a city.
-     * 
-     * @depends testGetCity
+     * Test update a state.
+     *
+     * @depends testGetState
      */
-    public function testPatchCity()
+    public function testPatchState()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPatchCity.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPatchState.json'), true);
 
         $this->client->xmlHttpRequest(
             'PATCH',
-            $this->router->generate('city_update', ['id' => $this->testId]),
+            $this->router->generate('state_update', ['id' => $this->testId]),
             [],
             [],
             self::$loggedHeaders,
@@ -161,22 +163,22 @@ class CityTest extends \App\Tests\CoreTest
 
         $this->assertEquals($mock['response'], $respBody);
 
-        $this->assertArrayHasKey('name', $data['city']);
+        $this->assertArrayHasKey('name', $data['state']);
         $this->assertArrayHasKey('success', $messages);
     }
 
     /**
-     * Test delete a city.
-     * 
-     * @depends testPatchCity
+     * Test delete a state.
+     *
+     * @depends testPatchState
      */
-    public function testDeleteCity()
+    public function testDeleteState()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testDeleteCity.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testDeleteState.json'), true);
 
         $this->client->xmlHttpRequest(
             'DELETE',
-            $this->router->generate('city_delete', ['id' => $this->testId]),
+            $this->router->generate('state_delete', ['id' => $this->testId]),
             [],
             [],
             self::$loggedHeaders

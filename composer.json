@@ -30,14 +30,11 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
-        "symfony/maker-bundle": "^1.19",
-        "symfony/web-server-bundle": "*",
+        "sci3ma/symfony-grumphp": "^3.0",
         "symfony/debug-bundle": "*",
+        "symfony/maker-bundle": "^1.19",
         "symfony/var-dumper": "*",
-        "symfony/phpunit-bridge": "*",
-        "phpunit/phpunit": "^7.5",
-        "phpro/grumphp": "^0.15.2",
-        "friendsofphp/php-cs-fixer": "^2"
+        "symfony/web-server-bundle": "*"
     },
     "config": {
         "optimize-autoloader": true,
@@ -124,6 +121,11 @@
         "incenteev-parameters": {
             "keep-outdated": true,
             "file": ".env"
+        },
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
         }
     }
 }

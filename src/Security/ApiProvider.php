@@ -32,7 +32,7 @@ class ApiProvider implements UserProviderInterface
         if (isset($credentials[$token])) {
             $data = $credentials[$token];
             $data['token'] = $token;
-
+            
             return User::create($data);
         }
     }

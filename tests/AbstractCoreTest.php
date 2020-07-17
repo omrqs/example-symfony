@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Process\Process;
 
-abstract class CoreTest extends WebTestCase
+abstract class AbstractCoreTest extends WebTestCase
 {
     /**
      * @var Symfony\Bundle\FrameworkBundle\Client
@@ -23,6 +23,16 @@ abstract class CoreTest extends WebTestCase
      * @var Symfony\Component\Process\Process
      */
     public $process;
+
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */
+    public $em;
+
+    /**
+     * @var Symfony\Bundle\FrameworkBundle\Console\Application
+     */
+    public $application;
 
     /**
      * @var array

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\State;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 

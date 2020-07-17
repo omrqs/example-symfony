@@ -12,6 +12,7 @@
     <php>
         <ini name="error_reporting" value="-1" />
         <env name="PAGINATOR_LIMIT_PER_REQUEST" value="25" />
+        <env name="DEFAULT_ACCESS_TOKEN" value="token1" />
     </php>
 
     <testsuites>
@@ -20,11 +21,11 @@
             <!-- Configure -->
             <file>tests/ConfigureTest.php</file>
             <!-- Controllers -->
-            <file>tests/WebTest/Controllers/IndexTest.php</file>
-            <file>tests/WebTest/Controllers/StateTest.php</file>
-            <file>tests/WebTest/Controllers/CityTest.php</file>
-            <!-- openAPI -->
-            <file>tests/WebTest/Controllers/DocTest.php</file>
+            <file>tests/WebTest/Controllers/IndexControllerTest.php</file>
+            <file>tests/WebTest/Controllers/AuthControllerTest.php</file>
+            <file>tests/WebTest/Controllers/StateControllerTest.php</file>
+            <file>tests/WebTest/Controllers/CityControllerTest.php</file>
+            <file>tests/WebTest/Controllers/DocControllerTest.php</file>
         </testsuite>
         <testsuite name="Units">
             <!-- Helpers -->
@@ -37,8 +38,4 @@
             <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
 </phpunit>

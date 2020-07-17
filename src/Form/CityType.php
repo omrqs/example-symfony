@@ -18,13 +18,13 @@ class CityType extends AbstractType
             ->add('state', EntityType::class, [
                 'class' => State::class,
                 'documentation' => [
-                    'description' => 'State of city.',
-                ]
+                    'description' => 'State ID of city.',
+                ],
             ])
             ->add('name', TextType::class, [
                 'documentation' => [
                     'description' => 'Name of city.',
-                ]
+                ],
             ])
         ;
     }
