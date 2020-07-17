@@ -102,12 +102,6 @@
         "server-start": [
             "@update-db",
             "php bin/console server:run 0.0.0.0:80"
-        ],
-        "run-tests": [
-            "php bin/phpunit --debug"
-        ],
-        "run-grumphp": [
-            "php vendor/bin/grumphp run"
         ]
     },
     "conflict": {
