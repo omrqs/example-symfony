@@ -28,6 +28,12 @@ Em seguida, será necessário instalar as dependências do projeto:
 docker-compose exec web composer setup
 ```
 
+Para popular o banco de dados com alguns registros, use o comando a seguir:
+
+```bash
+docker-compose exec web composer load-fixtures-db
+```
+
 A partir daqui, está tudo configurado :rocket:
 
 Assim, será possível acessar [http://localhost/doc](http://localhost/doc) e ver a documentação da API.
