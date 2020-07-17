@@ -1,0 +1,12 @@
+{% extends '@!NelmioApiDoc/SwaggerUi/index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/custom-swagger-styles.css') }}">
+    <style>header #logo {display:none;}</style>
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/custom-request-signer.js') }}"></script>
+{% endblock javascripts %}
