@@ -44,7 +44,7 @@ class CityRepository extends ServiceEntityRepository
         if (count($params) > 0) {
             $orWhere = [];
             foreach ($params as $field => $value) {
-                $orWhere[] = sprintf("%s LIKE '%s'", str_replace('_', '.', $field), '%'.$value.'%');
+                $orWhere[] = sprintf("e.%s LIKE '%s'", $field, '%'.$value.'%');
             }
 
             $dql->andWhere((string) implode(' OR ', $orWhere));
