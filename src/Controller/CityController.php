@@ -25,6 +25,36 @@ class CityController extends AbstractController
      *     response=200,
      *     description="List cities paginated.",
      * )
+     * @SWG\Parameter(
+     *     name="custom fields",
+     *     in="query",
+     *     type="string",
+     *     description="Field name to filter. Ex.: name=lorem"
+     * )
+     * @SWG\Parameter(
+     *     name="order_by",
+     *     in="query",
+     *     type="string",
+     *     description="Field to order"
+     * )
+     * @SWG\Parameter(
+     *     name="order",
+     *     in="query",
+     *     type="string",
+     *     description="Ordering direction"
+     * )
+     * @SWG\Parameter(
+     *     name="limit",
+     *     in="query",
+     *     type="integer",
+     *     description="Limit of result paginate"
+     * )
+     * @SWG\Parameter(
+     *     name="page",
+     *     in="query",
+     *     type="integer",
+     *     description="Page of pagination"
+     * )
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
      */
@@ -49,10 +79,7 @@ class CityController extends AbstractController
      * @SWG\Response(
      *     response=200,
      *     description="Create a new city",
-     *     @SWG\Schema(
-     *         type="json",
-     *         @SWG\Items(ref=@NelmioModel(type=CityType::class))
-     *     )
+     *     @SWG\Schema(@SWG\Items(ref=@NelmioModel(type=CityType::class)))
      * )
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
@@ -101,10 +128,7 @@ class CityController extends AbstractController
      * @SWG\Response(
      *     response=200,
      *     description="Update a city",
-     *     @SWG\Schema(
-     *         type="json",
-     *         @SWG\Items(ref=@NelmioModel(type=CityType::class))
-     *     )
+     *     @SWG\Schema(@SWG\Items(ref=@NelmioModel(type=CityType::class)))
      * )
      * @SWG\Tag(name="city")
      * @NelmioSecurity(name="Bearer")
