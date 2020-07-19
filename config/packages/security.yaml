@@ -24,6 +24,6 @@ security:
                 authenticators:
                     - App\Security\ApiAuthenticator
     access_control:
-        # - { path: ^/auth, roles: [IS_AUTHENTICATED_FULLY] }
-        # - { path: ^/state, roles: ROLE_ADMIN }
-        # - { path: ^/city, roles: ROLE_ADMIN }
+        - { path: ^/auth, roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/state, roles: ROLE_ADMIN }
+        - { path: ^/city, roles: ROLE_ADMIN }
