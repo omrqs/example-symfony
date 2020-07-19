@@ -64,7 +64,7 @@ abstract class AbstractCoreTest extends WebTestCase
         $this->application->setAutoExit(false);
 
         self::$loggedHeaders = array_merge(self::$defaultHeaders, [
-            'X-API-KEY' => getenv('DEFAULT_ACCESS_TOKEN'),
+            'HTTP_X_API_KEY' => getenv('DEFAULT_ACCESS_TOKEN'),
         ]);
 
         $this->buildDb();

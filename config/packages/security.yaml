@@ -12,9 +12,9 @@ security:
         doc:
             pattern: ^/doc
             security: false
-        # home:
-        #     pattern: /
-        #     security: false
+        home:
+            pattern: /$
+            security: false
         api:
             pattern: ^/
             host: '%env(APP_URL)%'
@@ -24,6 +24,5 @@ security:
                 authenticators:
                     - App\Security\ApiAuthenticator
     access_control:
-        - { path: ^/auth, roles: [IS_AUTHENTICATED_FULLY] }
         - { path: ^/state, roles: ROLE_ADMIN }
         - { path: ^/city, roles: ROLE_ADMIN }

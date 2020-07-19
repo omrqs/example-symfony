@@ -19,7 +19,7 @@ class ApiProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        return $this->loadUserByUsername($user->last_token);
+        return $this->loadUserByUsername($user->token);
     }
 
     /**

@@ -5,17 +5,17 @@ use App\Tests\AbstractCoreTest;
 
 class IndexControllerTest extends AbstractCoreTest
 {
-    // /**
-    //  * Test API index.
-    //  */
-    // public function testIndex()
-    // {
-    //     $this->client->xmlHttpRequest('GET', $this->router->generate('index'));
+    /**
+     * Test API index.
+     */
+    public function testIndex()
+    {
+        $this->client->xmlHttpRequest('GET', $this->router->generate('index'));
 
-    //     $response = $this->client->getResponse();
+        $response = $this->client->getResponse();
 
-    //     $this->assertSame(302, $response->getStatusCode());
-    // }
+        $this->assertSame(302, $response->getStatusCode());
+    }
 
     /**
      * Test API healthy.
