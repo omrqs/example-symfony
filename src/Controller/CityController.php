@@ -174,14 +174,11 @@ class CityController extends AbstractController
      */
     public function delete(City $city, TranslatorInterface $translator): JsonResponse
     {
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($city);
-            $em->flush();
-            $this->addFlash('success', $translator->trans('controller.success.delete', [], 'city'));
-        } catch (\Exception $e) {
-            $this->addFlash('error', $translator->trans($e->getMessage(), [], 'city'));
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($city);
+        $em->flush();
+        
+        $this->addFlash('success', $translator->trans('controller.success.delete', [], 'city'));
 
         return $this->json([]);
     }

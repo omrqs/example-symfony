@@ -11,9 +11,14 @@ class StateControllerTest extends AbstractCoreTest
     public $testId = 1;
 
     /**
-     * Test list states.
+     * @var int
      */
-    public function testGetStates()
+    public $testId404 = 100;
+
+    /**
+     * Test success list states.
+     */
+    public function testGetStatesSuccess()
     {
         $this->client->xmlHttpRequest(
             'GET',
@@ -34,7 +39,7 @@ class StateControllerTest extends AbstractCoreTest
             )
         );
             
-        ['data' => $data, 'paginator' => $paginator, 'messages' => $messages] = json_decode($response->getContent(), true);
+        ['data' => $data, 'paginator' => $paginator] = json_decode($response->getContent(), true);
         
         $this->assertArrayHasKey('states', $data);
 
@@ -57,11 +62,65 @@ class StateControllerTest extends AbstractCoreTest
     }
 
     /**
-     * Test new state.
+     * Test success filtered list states.
      */
-    public function testPostState()
+    public function testGetStatesFilteredSuccess()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPostState.json'), true);
+        $route = $this->router->generate('state_index');
+        $qs = [
+            'order' => 'desc',
+            'name' => 'rj',
+        ];
+
+        $url = sprintf('%s?%s', $route, http_build_query($qs));
+
+        $this->client->xmlHttpRequest(
+            'GET',
+            $url,
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+        
+        $this->assertSame(200, $response->getStatusCode());
+        
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+            
+        ['data' => $data, 'paginator' => $paginator] = json_decode($response->getContent(), true);
+        
+        $this->assertArrayHasKey('states', $data);
+
+        $this->assertArrayHasKey('current', $paginator);
+        $this->assertArrayHasKey('last', $paginator);
+        $this->assertArrayHasKey('current', $paginator);
+        $this->assertArrayHasKey('numItemsPerPage', $paginator);
+        $this->assertArrayHasKey('first', $paginator);
+        $this->assertArrayHasKey('pageCount', $paginator);
+        $this->assertArrayHasKey('totalCount', $paginator);
+        $this->assertArrayHasKey('pageRange', $paginator);
+        $this->assertArrayHasKey('startPage', $paginator);
+        $this->assertArrayHasKey('endPage', $paginator);
+        $this->assertArrayHasKey('pagesInRange', $paginator);
+        $this->assertArrayHasKey('firstPageInRange', $paginator);
+        $this->assertArrayHasKey('lastPageInRange', $paginator);
+        $this->assertArrayHasKey('currentItemCount', $paginator);
+        $this->assertArrayHasKey('firstItemNumber', $paginator);
+        $this->assertArrayHasKey('lastItemNumber', $paginator);
+    }
+
+    /**
+     * Test success new state.
+     */
+    public function testPostStateSuccess()
+    {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/State/testPostStateSuccess.json'), true);
 
         $this->client->xmlHttpRequest(
             'POST',
@@ -94,13 +153,51 @@ class StateControllerTest extends AbstractCoreTest
     }
 
     /**
-     * Test get state by id.
-     *
-     * @depends testPostState
+     * Test failure new state with error.
      */
-    public function testGetState()
+    public function testPostStateFailure()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testGetState.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/State/testPostStateFailure.json'), true);
+
+        $this->client->xmlHttpRequest(
+            'POST',
+            $this->router->generate('state_new'),
+            [],
+            [],
+            self::$loggedHeaders,
+            json_encode($mock['request'])
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+
+        $respBody = json_decode($response->getContent(), true);
+        ['data' => $data, 'messages' => $messages] = $respBody;
+
+        $this->assertEquals($mock['response'], $respBody);
+
+        $this->assertArrayHasKey('state', $data);
+        $this->assertArrayHasKey('id', $data['state']);
+        $this->assertArrayHasKey('name', $data['state']);
+        $this->assertArrayHasKey('error', $messages);
+    }
+
+    /**
+     * Test success get state by id.
+     *
+     * @depends testPostStateSuccess
+     */
+    public function testGetStateSuccess()
+    {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/State/testGetStateSuccess.json'), true);
 
         $this->client->xmlHttpRequest(
             'GET',
@@ -130,13 +227,13 @@ class StateControllerTest extends AbstractCoreTest
     }
 
     /**
-     * Test update a state.
+     * Test success update a state.
      *
-     * @depends testGetState
+     * @depends testGetStateSuccess
      */
-    public function testPatchState()
+    public function testPatchStateSuccess()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPatchState.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/State/testPatchStateSuccess.json'), true);
 
         $this->client->xmlHttpRequest(
             'PATCH',
@@ -168,13 +265,13 @@ class StateControllerTest extends AbstractCoreTest
     }
 
     /**
-     * Test delete a state.
+     * Test success delete a state.
      *
-     * @depends testPatchState
+     * @depends testPatchStateSuccess
      */
-    public function testDeleteState()
+    public function testDeleteStateSuccess()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testDeleteState.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/State/testDeleteStateSuccess.json'), true);
 
         $this->client->xmlHttpRequest(
             'DELETE',
@@ -202,5 +299,25 @@ class StateControllerTest extends AbstractCoreTest
 
 
         $this->assertArrayHasKey('success', $messages);
+    }
+
+    /**
+     * Test failure delete a state.
+     *
+     * @depends testDeleteStateSuccess
+     */
+    public function testDeleteStateFailure()
+    {
+        $this->client->xmlHttpRequest(
+            'DELETE',
+            $this->router->generate('state_delete', ['id' => $this->testId404]),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(404, $response->getStatusCode());
     }
 }

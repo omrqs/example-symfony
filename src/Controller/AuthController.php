@@ -18,8 +18,8 @@ class AuthController extends AbstractController
      */
     public function check(TranslatorInterface $translator)
     {
-        $this->addFlash('info', $translator->trans('controller.success.session', [], 'auth'));
+        $user = $this->getUser();
 
-        return $this->json([]);
+        return $this->json($user->toArray());
     }
 }

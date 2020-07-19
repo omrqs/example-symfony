@@ -35,6 +35,8 @@ class ApiProvider implements UserProviderInterface
             
             return User::create($data);
         }
+
+        return null;
     }
 
     /**

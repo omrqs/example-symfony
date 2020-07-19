@@ -43,6 +43,7 @@ class City
     /**
      * @var \App\Entity\State
      *
+     * @Assert\NotBlank(message="model.not_blank.state")
      * @ORM\ManyToOne(targetEntity="App\Entity\State", cascade={"persist", "refresh"}, inversedBy="cities", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="state_id", referencedColumnName="id", nullable=false, onDelete="cascade")
      */
@@ -51,8 +52,7 @@ class City
     /**
      * @var string
      *
-     * @Assert\NotBlank(message = "model.not_blank.name")
-     *
+     * @Assert\NotBlank(message="model.not_blank.name")
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;

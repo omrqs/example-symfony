@@ -11,9 +11,14 @@ class CityControllerTest extends AbstractCoreTest
     public $testId = 1;
 
     /**
-     * Test list cities.
+     * @var int
      */
-    public function testGetCities()
+    public $testId404 = 100;
+
+    /**
+     * Test success list cities.
+     */
+    public function testGetCitiesSuccess()
     {
         $this->client->xmlHttpRequest(
             'GET',
@@ -34,7 +39,7 @@ class CityControllerTest extends AbstractCoreTest
             )
         );
             
-        ['data' => $data, 'paginator' => $paginator, 'messages' => $messages] = json_decode($response->getContent(), true);
+        ['data' => $data, 'paginator' => $paginator] = json_decode($response->getContent(), true);
         
         $this->assertArrayHasKey('cities', $data);
 
@@ -57,11 +62,65 @@ class CityControllerTest extends AbstractCoreTest
     }
 
     /**
-     * Test new city.
+     * Test success filtered list cities.
      */
-    public function testPostCity()
+    public function testGetCitiesFilteredSuccess()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPostCity.json'), true);
+        $route = $this->router->generate('city_index');
+        $qs = [
+            'order' => 'desc',
+            'name' => 'rj',
+        ];
+
+        $url = sprintf('%s?%s', $route, http_build_query($qs));
+
+        $this->client->xmlHttpRequest(
+            'GET',
+            $url,
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+        
+        $this->assertSame(200, $response->getStatusCode());
+        
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+            
+        ['data' => $data, 'paginator' => $paginator] = json_decode($response->getContent(), true);
+        
+        $this->assertArrayHasKey('cities', $data);
+
+        $this->assertArrayHasKey('current', $paginator);
+        $this->assertArrayHasKey('last', $paginator);
+        $this->assertArrayHasKey('current', $paginator);
+        $this->assertArrayHasKey('numItemsPerPage', $paginator);
+        $this->assertArrayHasKey('first', $paginator);
+        $this->assertArrayHasKey('pageCount', $paginator);
+        $this->assertArrayHasKey('totalCount', $paginator);
+        $this->assertArrayHasKey('pageRange', $paginator);
+        $this->assertArrayHasKey('startPage', $paginator);
+        $this->assertArrayHasKey('endPage', $paginator);
+        $this->assertArrayHasKey('pagesInRange', $paginator);
+        $this->assertArrayHasKey('firstPageInRange', $paginator);
+        $this->assertArrayHasKey('lastPageInRange', $paginator);
+        $this->assertArrayHasKey('currentItemCount', $paginator);
+        $this->assertArrayHasKey('firstItemNumber', $paginator);
+        $this->assertArrayHasKey('lastItemNumber', $paginator);
+    }
+
+    /**
+     * Test success new city.
+     */
+    public function testPostCitySuccess()
+    {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/City/testPostCitySuccess.json'), true);
 
         $this->client->xmlHttpRequest(
             'POST',
@@ -94,13 +153,52 @@ class CityControllerTest extends AbstractCoreTest
     }
 
     /**
-     * Test get city by id.
-     *
-     * @depends testPostCity
+     * Test failure new city with error.
      */
-    public function testGetCity()
+    public function testPostCityFailure()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testGetCity.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/City/testPostCityFailure.json'), true);
+
+        $this->client->xmlHttpRequest(
+            'POST',
+            $this->router->generate('city_new'),
+            [],
+            [],
+            self::$loggedHeaders,
+            json_encode($mock['request'])
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+
+        $respBody = json_decode($response->getContent(), true);
+        ['data' => $data, 'messages' => $messages] = $respBody;
+
+        $this->assertEquals($mock['response'], $respBody);
+
+        $this->assertArrayHasKey('city', $data);
+        $this->assertArrayHasKey('id', $data['city']);
+        $this->assertArrayHasKey('name', $data['city']);
+        $this->assertArrayHasKey('state', $data['city']);
+        $this->assertArrayHasKey('error', $messages);
+    }
+
+    /**
+     * Test success get city by id.
+     *
+     * @depends testPostCitySuccess
+     */
+    public function testGetCitySuccess()
+    {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/City/testGetCitySuccess.json'), true);
 
         $this->client->xmlHttpRequest(
             'GET',
@@ -130,13 +228,13 @@ class CityControllerTest extends AbstractCoreTest
     }
 
     /**
-     * Test update a city.
+     * Test success update a city.
      *
-     * @depends testGetCity
+     * @depends testGetCitySuccess
      */
-    public function testPatchCity()
+    public function testPatchCitySuccess()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testPatchCity.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/City/testPatchCitySuccess.json'), true);
 
         $this->client->xmlHttpRequest(
             'PATCH',
@@ -168,13 +266,13 @@ class CityControllerTest extends AbstractCoreTest
     }
 
     /**
-     * Test delete a city.
+     * Test success delete a city.
      *
-     * @depends testPatchCity
+     * @depends testPatchCitySuccess
      */
-    public function testDeleteCity()
+    public function testDeleteCitySuccess()
     {
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testDeleteCity.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/City/testDeleteCitySuccess.json'), true);
 
         $this->client->xmlHttpRequest(
             'DELETE',
@@ -202,5 +300,25 @@ class CityControllerTest extends AbstractCoreTest
 
 
         $this->assertArrayHasKey('success', $messages);
+    }
+
+    /**
+     * Test failure delete a city.
+     *
+     * @depends testDeleteCitySuccess
+     */
+    public function testDeleteCityFailure()
+    {
+        $this->client->xmlHttpRequest(
+            'DELETE',
+            $this->router->generate('city_delete', ['id' => $this->testId404]),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(404, $response->getStatusCode());
     }
 }

@@ -174,14 +174,11 @@ class StateController extends AbstractController
      */
     public function delete(State $state, TranslatorInterface $translator): JsonResponse
     {
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($state);
-            $em->flush();
-            $this->addFlash('success', $translator->trans('controller.success.delete', [], 'state'));
-        } catch (\Exception $e) {
-            $this->addFlash('error', $translator->trans($e->getMessage(), [], 'state'));
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($state);
+        $em->flush();
+
+        $this->addFlash('success', $translator->trans('controller.success.delete', [], 'state'));
 
         return $this->json([]);
     }

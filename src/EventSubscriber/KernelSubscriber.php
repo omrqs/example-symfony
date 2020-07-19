@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Subscriber for responses.
@@ -65,7 +66,9 @@ class KernelSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'kernel.response' => 'onKernelResponse',
+            KernelEvents::RESPONSE => [
+                ['onKernelResponse', 10],
+            ]
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Subscriber for api requests.
@@ -38,7 +39,9 @@ class ApiRequestSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-           'kernel.request' => 'onKernelRequest',
+            KernelEvents::REQUEST => [
+                ['onKernelRequest', 10],
+            ]
         ];
     }
 }

@@ -54,7 +54,6 @@ class State
      * @var string
      *
      * @Assert\NotBlank(message = "model.not_blank.name")
-     *
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
@@ -63,7 +62,6 @@ class State
      * @var string
      *
      * @Assert\NotBlank(message = "model.not_blank.abrev")
-     *
      * @ORM\Column(name="abrev", type="string", length=2)
      */
     private $abrev;

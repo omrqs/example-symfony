@@ -1,6 +1,6 @@
 {
     "request": {
-        "name": "Goias",
+        "name": "Goiás",
         "abrev": "GO"
     },
     "response": {
@@ -8,7 +8,7 @@
             "state": {
                 "id": 4,
                 "abrev": "GO",
-                "name": "Goias"
+                "name": "Goiás"
             }
         },
         "messages": {

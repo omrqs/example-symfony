@@ -48,6 +48,11 @@ abstract class AbstractCoreTest extends WebTestCase
     public static $loggedHeaders = [];
 
     /**
+     * @var array
+     */
+    public static $failureLoggedHeaders = [];
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -65,6 +70,10 @@ abstract class AbstractCoreTest extends WebTestCase
 
         self::$loggedHeaders = array_merge(self::$defaultHeaders, [
             'HTTP_X_API_KEY' => getenv('DEFAULT_ACCESS_TOKEN'),
+        ]);
+
+        self::$failureLoggedHeaders = array_merge(self::$defaultHeaders, [
+            'HTTP_X_API_KEY' => '',
         ]);
 
         $this->buildDb();

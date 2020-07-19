@@ -16,10 +16,14 @@ class CoreHelper
         array_walk($toNormalize, function ($outterValue, $outterKey) use ($converter, &$data) {
             if (is_array($outterValue)) {
                 array_walk($outterValue, function ($innerValue, $innerKey) use ($converter, &$data, $outterKey) {
-                    $data["{$converter->denormalize($outterKey)}"]["{$converter->denormalize($innerKey)}"] = $innerValue;
+                    $rootKey = $converter->denormalize($outterKey);
+                    $childKey = $converter->denormalize($innerKey);
+
+                    $data[$rootKey][$childKey] = $innerValue;
                 });
             } else {
-                $data["{$converter->denormalize($outterKey)}"] = $outterValue;
+                $rootKey = $converter->denormalize($outterKey);
+                $data[$rootKey] = $outterValue;
             }
         });
 

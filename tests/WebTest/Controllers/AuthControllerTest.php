@@ -6,10 +6,12 @@ use App\Tests\AbstractCoreTest;
 class AuthControllerTest extends AbstractCoreTest
 {
     /**
-     * Test session logged.
+     * Test sucess session logged.
      */
     public function testAuthSuccess()
     {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/Auth/testAuthSuccess.json'), true);
+
         $this->client->xmlHttpRequest(
             'GET',
             $this->router->generate('auth_check'),
@@ -29,15 +31,38 @@ class AuthControllerTest extends AbstractCoreTest
             )
         );
 
-        ['messages' => $messages] = json_decode($response->getContent(), true);
+        $respBody = json_decode($response->getContent(), true);
+        ['data' => $data] = $respBody;
 
-        $this->assertArrayHasKey('info', $messages);
+        $this->assertEquals($mock['response'], $respBody);
+
+        $this->assertArrayHasKey('id', $data);
+        $this->assertArrayHasKey('email', $data);
+        $this->assertArrayHasKey('enabled', $data);
     }
 
     /**
-     * Test session not logged.
+     * Test invalid session logged.
      */
-    public function testAuthFailed()
+    public function testAuthInvalid()
+    {
+        $this->client->xmlHttpRequest(
+            'GET',
+            $this->router->generate('auth_check'),
+            [],
+            [],
+            self::$failureLoggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(401, $response->getStatusCode());
+    }
+
+    /**
+     * Test failure session not logged.
+     */
+    public function testAuthFailure()
     {
         $this->client->xmlHttpRequest('GET', $this->router->generate('auth_check'));
 

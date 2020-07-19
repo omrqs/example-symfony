@@ -8,11 +8,7 @@ trait AccessPropertyTrait
      */
     public function __get(string $key): ?string
     {
-        if (\property_exists($this, $key)) {
-            return $this->{$key};
-        }
-
-        return null;
+        return $this->{$key};
     }
 
     /**
@@ -25,13 +21,5 @@ trait AccessPropertyTrait
         }
 
         return $this;
-    }
-
-    /**
-     * Isset magic.
-     */
-    public function __isset(string $key): bool
-    {
-        return \property_exists($this, $key);
     }
 }

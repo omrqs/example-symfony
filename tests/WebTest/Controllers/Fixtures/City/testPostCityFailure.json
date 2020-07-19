@@ -1,0 +1,19 @@
+{
+    "request": {
+        "name": "Resende"
+    },
+    "response": {
+        "data": {
+            "city": {
+                "id": null,
+                "state": [],
+                "name": "Resende"
+            }
+        },
+        "messages": {
+            "error": [
+                "O estado não pode ficar em branco."
+            ]
+        }
+    }
+}

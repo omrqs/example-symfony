@@ -1,0 +1,19 @@
+{
+    "request": {
+        "name": "Goiás"
+    },
+    "response": {
+        "data": {
+            "state": {
+                "id": null,
+                "abrev": null,
+                "name": "Goiás"
+            }
+        },
+        "messages": {
+            "error": [
+                "A sigla do estado não pode ficar em branco."
+            ]
+        }
+    }
+}

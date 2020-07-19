@@ -65,23 +65,32 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
-        return $this->token;
     }
 
-    public function getSalt(): string
+    public function getSalt(): ?string
     {
-        return '';
     }
 
     public function eraseCredentials()
     {
-        $this->token = '';
     }
 
     public function isEnabled(): bool
     {
         return $this->enabled;
+    }
+    
+    /**
+     * Object to array.
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'email' => $this->getUsername(),
+            'enabled' => $this->isEnabled(),
+        ];
     }
 }
