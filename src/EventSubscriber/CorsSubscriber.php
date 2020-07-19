@@ -29,7 +29,7 @@ class CorsSubscriber implements EventSubscriberInterface
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Access-Control-Allow-Credentials', 'true');
         $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH, OPTIONS', 'HEAD');
-        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Accept, X-AUTH-TOKEN, API-KEY, API-SECRET');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Accept, X-API-KEY');
         $response->headers->set('X-Powered-By', getenv('APP_NAME'));
 
         $event->setResponse($response);

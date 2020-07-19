@@ -39,10 +39,7 @@ class AuthControllerTest extends AbstractCoreTest
      */
     public function testAuthFailed()
     {
-        $this->client->xmlHttpRequest(
-            'GET',
-            $this->router->generate('auth_check')
-        );
+        $this->client->xmlHttpRequest('GET', $this->router->generate('auth_check'));
 
         $response = $this->client->getResponse();
 

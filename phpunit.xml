@@ -11,8 +11,14 @@
     stopOnFailure="false">
     <php>
         <ini name="error_reporting" value="-1" />
+        <ini name="memory_limit" value="-1" />
+        <env name="APP_ENV" value="test" force="true"/>
+        <env name="KERNEL_CLASS" value="App\Kernel" />
+        <env name="SYMFONY_PHPUNIT_VERSION" value="7.5"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
         <env name="PAGINATOR_LIMIT_PER_REQUEST" value="25" />
         <env name="DEFAULT_ACCESS_TOKEN" value="token1" />
+        <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
     </php>
 
     <testsuites>
@@ -33,9 +39,32 @@
         </testsuite>
     </testsuites>
     
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+        <listener class="Symfony\Bridge\PhpUnit\CoverageListener" />
+    </listeners>
+
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./</directory>
+            <exclude>
+                <directory>./tests</directory>
+                <directory>./vendor</directory>
+                <directory>./public</directory>
+                <directory>./config</directory>
+                <directory>./var</directory>
+                <directory>./bin</directory>
+                <directory>./src/Migrations</directory>
+                <directory>./src/DataFixtures</directory>
+                <directory>./src/Entity</directory>
+                <directory>./src/Kernel.php</directory>
+                <directory>./src/dist</directory>
+                <directory>./php_cs.php</directory>
+            </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-html" target="build/coverage"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
 </phpunit>

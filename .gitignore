@@ -8,8 +8,8 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
+/build/
 /vendor/
-/docker/mongodb
 ###< symfony/framework-bundle ###
 
 ###> symfony/web-server-bundle ###

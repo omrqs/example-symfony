@@ -16,7 +16,7 @@ class AuthController extends AbstractController
     /**
      * @Route("/check", name="check", methods={"GET"})
      */
-    public function session(TranslatorInterface $translator)
+    public function check(TranslatorInterface $translator)
     {
         $this->addFlash('info', $translator->trans('controller.success.session', [], 'auth'));
 

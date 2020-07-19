@@ -96,8 +96,8 @@
             "@install-assets"
         ],
         "server-dump": [
-            "php bin/console server:dump",
-            "@server-start"
+            "@update-db",
+            "php bin/console server:dump"
         ],
         "server-start": [
             "@update-db",

@@ -15,17 +15,18 @@
 Clone este repositório, crie uma nova _branch_, como por exemplo `sf-challenge`.
 
 Na sua máquina, você só precisa ter o [Docker](https://www.docker.com/get-started) e o [Docker Compose](https://docs.docker.com/compose/) instalados.
-Você pode subir o projeto utilizando o `docker-compose`.
+
+Para rodar a primeira vez o repositório, basta usar o comando make na raiz do projeto. Ele ira configurar a aplicação e já deixará em execução.
 Garanta que a porta `80` de sua máquina não esteja sendo utilizada e rode o comando abaixo:
 
 ```bash
-docker-compose up
+make
 ```
 
-Em seguida, será necessário instalar as dependências do projeto:
+Para as demais ocasiões, você pode subir o projeto utilizando o `docker-compose`.
 
 ```bash
-docker-compose exec web composer setup
+docker-compose up
 ```
 
 Para popular o banco de dados com alguns registros, use o comando a seguir:
@@ -39,6 +40,13 @@ A partir daqui, está tudo configurado :rocket:
 Assim, será possível acessar [http://localhost/doc](http://localhost/doc) e ver a documentação da API.
 
 ## Testando
+
+Para debugar a aplicação, utilize o comando para habilitar o server:dump na porta 9912:
+
+```bash
+docker-compose exec web composer server-dump
+```
+---
 
 Para rodar os testes da aplicação, utilize o [phpunit](https://phpunit.de/), que já vem instalado:
 

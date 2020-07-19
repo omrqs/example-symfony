@@ -12,6 +12,7 @@ services:
             - mysqldb
         ports:
             - ${UPSTREAM_PORT}:${UPSTREAM_PORT}
+            - ${DEBUG_PORT}:${DEBUG_PORT}
         links: 
             - redis
             - mysqldb
