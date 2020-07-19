@@ -47,6 +47,8 @@ class KernelSubscriber implements EventSubscriberInterface
                 unset($data['data']['messages']);
             }
 
+            // Cleanup empty values and return parsed response.
+            $data = array_filter($data);
             $response->setContent(json_encode($data));
             $event->setResponse($response);
         }
