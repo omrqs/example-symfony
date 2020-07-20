@@ -1,0 +1,18 @@
+{
+    "request": {
+        "name_of_city": "Congonhas",
+        "state_of_city": {
+            "id": 1,
+            "name_of_state": "São Paulo",
+            "abrev_of_state": "SP"
+        }
+    },
+    "response": {
+        "nameOfCity": "Congonhas",
+        "stateOfCity": {
+            "id": 1,
+            "nameOfState": "São Paulo",
+            "abrevOfState": "SP"
+        }
+    }
+}

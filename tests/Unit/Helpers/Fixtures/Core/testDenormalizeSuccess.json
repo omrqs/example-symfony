@@ -1,0 +1,10 @@
+{
+    "request": {
+        "name_of_state": "São Paulo",
+        "abrev_of_state": "SP"
+    },
+    "response": {
+        "nameOfState": "São Paulo",
+        "abrevOfState": "SP"        
+    }
+}
