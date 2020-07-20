@@ -10,6 +10,16 @@
 
 **Usuário:** @omrqs
 
+## Apresentação
+
+Este repositório visa demonstrar o desenvolvimento de uma API REST utilizando o framework symfony 4.4, Doctrine com MySQL e cacheamento com Redis.
+
+Possui dois CRUD's (state e city) com as operações básicas, validações, paginação e filtragem de registros. Estes endpoints são servidos por autenticação, conforme especificado via openAPI [http://localhost/doc](http://localhost/doc).
+
+A aplicação é coberta por testes utilizando phpunit, grumphp, phpstan e está gerando relatórios de cobertura com o clover. O ambiente roda em cima de docker/docker-compose, usando uma imagem publicado em um dos meus repositórios - [https://hub.docker.com/u/omrqs](https://hub.docker.com/repository/docker/omrqs/php7.x-sf).
+
+Existem ainda alguns EventSubscribers para tratar payload, cors e préprocessar responses.
+
 ## Começando
 
 Clone este repositório, crie uma nova _branch_, como por exemplo `sf-challenge`.
@@ -59,6 +69,12 @@ Caso deseje rodar todas as checagens de qualidade de código, rode o comando aba
 
 ```bash
 docker-compose exec web vendor/bin/grumphp run
+```
+
+Ainda poderá 'snifar' o código em busca de possíveis problemas com o comando abaixo:
+
+```bash
+docker-compose exec web vendor/bin/phpcbf <path>
 ```
 
 Para ativar essas checagens automaticamente a cada commit, utilize o `git:init` do _grumphp_:
