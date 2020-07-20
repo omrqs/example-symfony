@@ -29,7 +29,7 @@ class StateFixtures extends Fixture implements FixtureInterface, ContainerAwareI
     /**
      * Load fixtures.
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->states as $name => $abrev) {
             $state = new State();
@@ -49,7 +49,7 @@ class StateFixtures extends Fixture implements FixtureInterface, ContainerAwareI
      *
      * @return int
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 0;
     }

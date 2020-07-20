@@ -1,8 +1,0 @@
-parameters:
-    level: max
-    paths:
-        - config
-        - src
-        - public
-        - translations
-        - tests

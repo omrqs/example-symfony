@@ -19,4 +19,16 @@ class CityRepository extends AbstractRepository
     {
         parent::__construct($registry, City::class);
     }
+    
+    /**
+     * Query to custom paginator.
+     */
+    public function queryToPaginate(array $params): \Doctrine\ORM\QueryBuilder
+    {
+        $dql = parent::queryToPaginate($params);
+
+        $dql->leftJoin('e.state', 's');
+        
+        return $dql;
+    }
 }

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Process\Process;
+use Doctrine\DBAL\DBALException;
 
 abstract class AbstractCoreTest extends WebTestCase
 {
@@ -53,6 +54,23 @@ abstract class AbstractCoreTest extends WebTestCase
     public static $failureLoggedHeaders = [];
 
     /**
+     * @var array
+     */
+    public static $deniedAttrLoggedHeaders = [];
+
+    /**
+     * @var array
+     */
+    public static $unkownAttrLoggedHeaders = [];
+
+    /**
+     * @var array
+     */
+    public static $paginatorKeys = [
+        'current', 'last', 'current', 'numItemsPerPage', 'first', 'pageCount', 'totalCount', 'pageRange', 'startPage', 'endPage', 'pagesInRange', 'firstPageInRange', 'lastPageInRange', 'currentItemCount', 'firstItemNumber', 'lastItemNumber'
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -70,10 +88,18 @@ abstract class AbstractCoreTest extends WebTestCase
 
         self::$loggedHeaders = array_merge(self::$defaultHeaders, [
             'HTTP_X_API_KEY' => getenv('DEFAULT_ACCESS_TOKEN'),
-        ]);
-
+            ]);
+            
         self::$failureLoggedHeaders = array_merge(self::$defaultHeaders, [
             'HTTP_X_API_KEY' => '',
+        ]);
+
+        self::$deniedAttrLoggedHeaders = array_merge(self::$defaultHeaders, [
+            'HTTP_X_API_KEY' => getenv('DEFAULT_ACCESS_TOKEN2'),
+        ]);
+
+        self::$unkownAttrLoggedHeaders = array_merge(self::$defaultHeaders, [
+            'HTTP_X_API_KEY' => getenv('DEFAULT_ACCESS_TOKEN3'),
         ]);
 
         $this->buildDb();
@@ -129,8 +155,8 @@ abstract class AbstractCoreTest extends WebTestCase
             ]));
 
             return true;
-        } catch (\Exception $e) {
-            return false;
+        } catch (DBALException $e) {
+            throw $e;
         }
     }
 

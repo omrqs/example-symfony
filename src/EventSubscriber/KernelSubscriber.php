@@ -14,7 +14,7 @@ class KernelSubscriber implements EventSubscriberInterface
     /**
      * Rebuild reponse with session messages. Include original response from controllers.
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(FilterResponseEvent $event): void
     {
         $request = $event->getRequest();
         $response = $event->getResponse();
@@ -25,7 +25,7 @@ class KernelSubscriber implements EventSubscriberInterface
                 $sessionMessages = [];
             }
             
-            $content = json_decode($response->getContent(), true);
+            $content = !empty($response->getContent()) ? json_decode($response->getContent(), true) : [];
 
             // Concat messages when already exists.
             $messages = (isset($content['messages']))
@@ -50,20 +50,17 @@ class KernelSubscriber implements EventSubscriberInterface
 
             // Cleanup empty values and return parsed response.
             $data = array_filter($data);
-            $response->setContent(json_encode($data));
+            if (!empty($data)) {
+                $response->setContent((string) json_encode($data));
+            }
             $event->setResponse($response);
-        }
-
-        // Set user locale on session request.
-        if (is_null($request->getLocale())) {
-            $request->setLocale('pt_BR');
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::RESPONSE => [

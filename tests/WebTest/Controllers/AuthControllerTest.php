@@ -60,6 +60,24 @@ class AuthControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test session logged unknow attibute.
+     */
+    public function testAuthUnknow()
+    {
+        $this->client->xmlHttpRequest(
+            'GET',
+            $this->router->generate('auth_check'),
+            [],
+            [],
+            self::$unkownAttrLoggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+    }
+
+    /**
      * Test failure session not logged.
      */
     public function testAuthFailure()
@@ -80,5 +98,23 @@ class AuthControllerTest extends AbstractCoreTest
         ['messages' => $messages] = json_decode($response->getContent(), true);
 
         $this->assertArrayHasKey('notice', $messages);
+    }
+
+    /**
+     * Test access denied resource logged.
+     */
+    public function testAuthDenied()
+    {
+        $this->client->xmlHttpRequest(
+            'GET',
+            $this->router->generate('state_index'),
+            [],
+            [],
+            self::$deniedAttrLoggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(403, $response->getStatusCode());
     }
 }

@@ -8,7 +8,11 @@ trait AccessPropertyTrait
      */
     public function __get(string $key): ?string
     {
-        return $this->{$key};
+        if (\property_exists($this, $key)) {
+            return $this->{$key};
+        }
+
+        return null;
     }
 
     /**

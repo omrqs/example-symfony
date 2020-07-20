@@ -43,22 +43,9 @@ class StateControllerTest extends AbstractCoreTest
         
         $this->assertArrayHasKey('states', $data);
 
-        $this->assertArrayHasKey('current', $paginator);
-        $this->assertArrayHasKey('last', $paginator);
-        $this->assertArrayHasKey('current', $paginator);
-        $this->assertArrayHasKey('numItemsPerPage', $paginator);
-        $this->assertArrayHasKey('first', $paginator);
-        $this->assertArrayHasKey('pageCount', $paginator);
-        $this->assertArrayHasKey('totalCount', $paginator);
-        $this->assertArrayHasKey('pageRange', $paginator);
-        $this->assertArrayHasKey('startPage', $paginator);
-        $this->assertArrayHasKey('endPage', $paginator);
-        $this->assertArrayHasKey('pagesInRange', $paginator);
-        $this->assertArrayHasKey('firstPageInRange', $paginator);
-        $this->assertArrayHasKey('lastPageInRange', $paginator);
-        $this->assertArrayHasKey('currentItemCount', $paginator);
-        $this->assertArrayHasKey('firstItemNumber', $paginator);
-        $this->assertArrayHasKey('lastItemNumber', $paginator);
+        foreach (self::$paginatorKeys as $key) {
+            $this->assertArrayHasKey($key, $paginator);
+        }
     }
 
     /**
@@ -68,8 +55,11 @@ class StateControllerTest extends AbstractCoreTest
     {
         $route = $this->router->generate('state_index');
         $qs = [
+            'abrev' => 'rj',
+            'sort' => 'name',
             'order' => 'desc',
-            'name' => 'rj',
+            'page' => 1,
+            'limit' => 10,
         ];
 
         $url = sprintf('%s?%s', $route, http_build_query($qs));
@@ -97,22 +87,9 @@ class StateControllerTest extends AbstractCoreTest
         
         $this->assertArrayHasKey('states', $data);
 
-        $this->assertArrayHasKey('current', $paginator);
-        $this->assertArrayHasKey('last', $paginator);
-        $this->assertArrayHasKey('current', $paginator);
-        $this->assertArrayHasKey('numItemsPerPage', $paginator);
-        $this->assertArrayHasKey('first', $paginator);
-        $this->assertArrayHasKey('pageCount', $paginator);
-        $this->assertArrayHasKey('totalCount', $paginator);
-        $this->assertArrayHasKey('pageRange', $paginator);
-        $this->assertArrayHasKey('startPage', $paginator);
-        $this->assertArrayHasKey('endPage', $paginator);
-        $this->assertArrayHasKey('pagesInRange', $paginator);
-        $this->assertArrayHasKey('firstPageInRange', $paginator);
-        $this->assertArrayHasKey('lastPageInRange', $paginator);
-        $this->assertArrayHasKey('currentItemCount', $paginator);
-        $this->assertArrayHasKey('firstItemNumber', $paginator);
-        $this->assertArrayHasKey('lastItemNumber', $paginator);
+        foreach (self::$paginatorKeys as $key) {
+            $this->assertArrayHasKey($key, $paginator);
+        }
     }
 
     /**

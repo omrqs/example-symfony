@@ -33,7 +33,7 @@ class CoreHelper
     /**
      * Convert array of objects into array of array.
      */
-    public static function objectsToArray(array $data): array
+    public static function objectsToArray(iterable $data): array
     {
         return array_map(function ($item) {
             return $item->toArray();

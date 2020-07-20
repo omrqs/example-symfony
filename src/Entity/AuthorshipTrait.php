@@ -30,7 +30,7 @@ trait AuthorshipTrait
      *
      * @ORM\PrePersist()
      */
-    public function onPrePersist()
+    public function onPrePersist(): void
     {
         $this->createdAt = new \DateTime();
     }
@@ -40,7 +40,7 @@ trait AuthorshipTrait
      *
      * @ORM\PreUpdate()
      */
-    public function onPreUpdate()
+    public function onPreUpdate(): void
     {
         $this->updatedAt = new \DateTime();
     }

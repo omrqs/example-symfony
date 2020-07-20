@@ -29,7 +29,7 @@ class CityFixtures extends Fixture implements FixtureInterface, ContainerAwareIn
     /**
      * Load fixtures.
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->cities as $name => $state) {
             $city = new City();
@@ -47,7 +47,7 @@ class CityFixtures extends Fixture implements FixtureInterface, ContainerAwareIn
      *
      * @return int
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 1;
     }

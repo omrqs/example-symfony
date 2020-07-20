@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
@@ -19,7 +19,7 @@ class IndexController extends AbstractController
      * )
      * @SWG\Tag(name="index")
      */
-    public function index()
+    public function index(): RedirectResponse
     {
         return $this->redirectToRoute('app.swagger_ui');
     }
@@ -33,7 +33,7 @@ class IndexController extends AbstractController
      * )
      * @SWG\Tag(name="healthy")
      */
-    public function healthy(TranslatorInterface $translator)
+    public function healthy(TranslatorInterface $translator): JsonResponse
     {
         $this->addFlash('info', $translator->trans('controller.success.healthy', [], 'main'));
 

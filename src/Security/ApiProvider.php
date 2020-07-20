@@ -17,7 +17,7 @@ class ApiProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): ?UserInterface
     {
         return $this->loadUserByUsername($user->token);
     }
@@ -25,7 +25,7 @@ class ApiProvider implements UserProviderInterface
     /**
      * Load user.
      */
-    public function loadUserByUsername($token)
+    public function loadUserByUsername($token): ?UserInterface
     {
         $credentials = Yaml::parseFile(__DIR__.'/credentials.yaml');
 

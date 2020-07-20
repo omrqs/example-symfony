@@ -3,7 +3,8 @@
         "data": {
             "id": "3kR7nKuM2L",
             "email": "email@domain.io",
-            "enabled": true
+            "enabled": true,
+            "username": "email@domain.io"
         }
     }
 }

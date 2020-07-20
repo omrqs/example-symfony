@@ -15,7 +15,7 @@ class CorsSubscriber implements EventSubscriberInterface
     /**
      * Rebuild reponse with session messages. Include original response from controllers.
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(FilterResponseEvent $event): void
     {
         // Don't do anything if it's not the master request.
         if ($event->isMasterRequest()) {
@@ -23,7 +23,7 @@ class CorsSubscriber implements EventSubscriberInterface
 
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
-            $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH, OPTIONS', 'HEAD');
+            $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH, OPTIONS, HEAD');
             $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Accept, X-API-KEY');
             $response->headers->set('X-Powered-By', getenv('APP_NAME'));
 
@@ -34,7 +34,7 @@ class CorsSubscriber implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::RESPONSE => [

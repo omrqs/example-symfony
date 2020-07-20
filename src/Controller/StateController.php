@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\State;
 use App\Form\StateType;
+use App\Repository\StateRepository;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class StateController extends AbstractController
      *     description="Field name to filter. Ex.: name=lorem"
      * )
      * @SWG\Parameter(
-     *     name="order_by",
+     *     name="sort",
      *     in="query",
      *     type="string",
      *     description="Field to order"
@@ -60,13 +61,13 @@ class StateController extends AbstractController
      *
      * @NelmioSecurity(name="Bearer")
      */
-    public function index(Request $request, PaginatorInterface $paginator): JsonResponse
+    public function index(Request $request, StateRepository $stateRepository, PaginatorInterface $paginator): JsonResponse
     {
         // pagination
         $pagination = $paginator->paginate(
-            $this->getDoctrine()->getRepository(State::class)->queryToPaginate($request->query->all()),
-            $request->query->get('page', 1),
-            $request->query->get('limit', getenv('PAGINATOR_LIMIT_PER_REQUEST'))
+            $stateRepository->queryToPaginate($request->query->all()),
+            (int) $request->query->get('page', "1"),
+            (int) $request->query->get('limit', (string) getenv('PAGINATOR_LIMIT_PER_REQUEST'))
         );
         // end pagination
 
@@ -150,10 +151,6 @@ class StateController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', $translator->trans('controller.success.update', [], 'state'));
-        } else {
-            foreach ($form->getErrors(true) as $key => $error) {
-                $this->addFlash('error', $translator->trans($error->getMessage(), [], 'state'));
-            }
         }
 
         return $this->json([

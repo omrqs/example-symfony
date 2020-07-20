@@ -14,7 +14,7 @@ class ApiRequestSubscriber implements EventSubscriberInterface
     /**
      * Parser attributes from request to json format.
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -30,13 +30,13 @@ class ApiRequestSubscriber implements EventSubscriberInterface
         $requestData = $event->getRequest()->request->all();
         $data = \App\Helper\CoreHelper::denormalize($requestData);
 
-        $event->getRequest()->request->replace(is_array($data) ? $data : []);
+        $event->getRequest()->request->replace($data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => [

@@ -67,13 +67,15 @@ class User implements UserInterface
 
     public function getPassword(): ?string
     {
+        return '';
     }
-
+    
     public function getSalt(): ?string
     {
+        return '';
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 
@@ -89,7 +91,8 @@ class User implements UserInterface
     {
         return [
             'id' => $this->getId(),
-            'email' => $this->getUsername(),
+            'username' => $this->getUsername(),
+            'email' => $this->email,
             'enabled' => $this->isEnabled(),
         ];
     }

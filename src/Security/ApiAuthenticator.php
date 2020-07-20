@@ -91,11 +91,7 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
         
         $token = $credentials['token'];
 
-        if (!$user = $userProvider->loadUserByUsername($token)) {
-            return null;
-        }
-        
-        return $userProvider->refreshUser($user);
+        return $userProvider->loadUserByUsername($token);
     }
 
     /**

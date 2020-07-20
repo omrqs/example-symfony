@@ -19,7 +19,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
     /**
      * Constructor.
      */
-    public function __construct(ManagerRegistry $registry, $entity)
+    public function __construct(ManagerRegistry $registry, string $entity)
     {
         parent::__construct($registry, $entity);
     }
@@ -55,6 +55,8 @@ abstract class AbstractRepository extends ServiceEntityRepository
             $clausule = (string) implode(' OR ', $orWhere);
             $dql->andWhere($clausule);
         }
+
+        // SELECT e FROM App\Entity\City e WHERE e.name LIKE '%state%' ORDER BY e.name desc
 
         return $dql;
     }

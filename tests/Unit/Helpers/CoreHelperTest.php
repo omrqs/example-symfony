@@ -7,10 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 class CoreHelperTest extends TestCase
 {
-    public function testDenormalize()
+    public function testDenormalizeSuccess()
     {
         // Set
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testDenormalize.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/Core/testDenormalizeSuccess.json'), true);
         
         // Action
         $data = CoreHelper::denormalize($mock['request']);
@@ -19,10 +19,22 @@ class CoreHelperTest extends TestCase
         $this->assertEquals($data, $mock['response']);
     }
 
-    public function testObjectsToArray()
+    public function testDenormalizeLongSuccess()
     {
         // Set
-        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/testObjectsToArray.json'), true);
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/Core/testDenormalizeLongSuccess.json'), true);
+        
+        // Action
+        $data = CoreHelper::denormalize($mock['request']);
+
+        // Assertions
+        $this->assertEquals($data, $mock['response']);
+    }
+
+    public function testObjectsToArraySuccess()
+    {
+        // Set
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/Core/testObjectsToArraySuccess.json'), true);
         $mock['request'] = [
             new State(),
         ];

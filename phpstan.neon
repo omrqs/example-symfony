@@ -1,11 +1,3 @@
-includes:
-    - vendor/phpstan/phpstan-doctrine/extension.neon
-    - vendor/phpstan/phpstan-doctrine/rules.neon
-    - vendor/phpstan/phpstan-phpunit/extension.neon
-    - vendor/phpstan/phpstan-phpunit/rules.neon
-    - vendor/phpstan/phpstan-symfony/extension.neon
-    - vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon
-
 parameters:
     checkGenericClassInNonGenericObjectType: false
     inferPrivatePropertyTypeFromConstructor: true
@@ -16,8 +8,10 @@ parameters:
         - %rootDir%/../../../config/*
         - %rootDir%/../../../vendor/*
         - %rootDir%/../../../tests/*
+        - %rootDir%/../../../src/Kernel.php
         - %rootDir%/../../../php_cs.php
     ignoreErrors:
+        - '#Result of function abort \(void\) is used#'
         - '#PHPDoc tag @return with type object is not subtype of native type#'
         - '#Method .* should return .* but returns object#'
         - '#Method .* should return .* but returns .*ObjectRepository#'
@@ -36,4 +30,4 @@ parameters:
         - '#Call to an undefined method Knp\\Bundle\\PaginatorBundle\\Pagination\\SlidingPaginationInterface.*#'
         - '#Call to an undefined method DateTimeInterface::add()#'
     symfony:
-        container_xml_path: %rootDir%/../../../var/cache/dev/srcApp_KernelDevDebugContainer.xml
+        container_xml_path: %rootDir%/../../../var/cache/test/srcApp_KernelTestDebugContainer.xml
