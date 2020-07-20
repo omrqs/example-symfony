@@ -6,6 +6,25 @@ use App\Tests\AbstractCoreTest;
 class IndexControllerTest extends AbstractCoreTest
 {
     /**
+     * Test OPTIONS API index.
+     */
+    public function testIndexOptions()
+    {
+        $this->client->xmlHttpRequest('OPTIONS', $this->router->generate('index'));
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test API index.
      */
     public function testIndex()
@@ -15,6 +34,25 @@ class IndexControllerTest extends AbstractCoreTest
         $response = $this->client->getResponse();
 
         $this->assertSame(302, $response->getStatusCode());
+    }
+
+    /**
+     * Test OPTIONS API healthy.
+     */
+    public function testHealthyOptions()
+    {
+        $this->client->xmlHttpRequest('OPTIONS', $this->router->generate('healthy'));
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
     }
 
     /**

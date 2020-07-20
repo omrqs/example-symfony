@@ -16,6 +16,31 @@ class StateControllerTest extends AbstractCoreTest
     public $testId404 = 100;
 
     /**
+     * Test OPTIONS list states.
+     */
+    public function testGetStatesOptions()
+    {
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('state_index'),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+        
+        $this->assertSame(200, $response->getStatusCode());
+        
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success list states.
      */
     public function testGetStatesSuccess()
@@ -93,7 +118,36 @@ class StateControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test OPTIONS new state.
+     */
+    public function testPostStateOptions()
+    {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/State/testPostStateSuccess.json'), true);
+
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('state_new'),
+            [],
+            [],
+            self::$loggedHeaders,
+            json_encode($mock['request'])
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success new state.
+     * @depends testPostStateOptions
      */
     public function testPostStateSuccess()
     {
@@ -168,8 +222,34 @@ class StateControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test OPTIONS get state by id.
+     */
+    public function testGetStateOptions()
+    {
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('state_show', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success get state by id.
      *
+     * @depends testGetStateOptions
      * @depends testPostStateSuccess
      */
     public function testGetStateSuccess()
@@ -204,8 +284,39 @@ class StateControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test OPTIONS update a state.
+     *
+     * @depends testGetStateOptions
+     */
+    public function testPatchStateOptions()
+    {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/State/testPatchStateSuccess.json'), true);
+
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('state_update', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders,
+            json_encode($mock['request'])
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success update a state.
      *
+     * @depends testPatchStateOptions
      * @depends testGetStateSuccess
      */
     public function testPatchStateSuccess()
@@ -242,8 +353,36 @@ class StateControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test OPTIONS delete a state.
+     *
+     * @depends testPatchStateSuccess
+     */
+    public function testDeleteStateOptions()
+    {
+        $this->client->xmlHttpRequest(
+            'DELETE',
+            $this->router->generate('state_delete', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success delete a state.
      *
+     * @depends testDeleteStateOptions
      * @depends testPatchStateSuccess
      */
     public function testDeleteStateSuccess()

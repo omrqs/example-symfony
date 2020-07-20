@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 
+/**
+ * @Route(methods={"OPTIONS"}))
+ */
 class IndexController extends AbstractController
 {
     /**

@@ -20,7 +20,15 @@ class CorsSubscriber implements EventSubscriberInterface
         // Don't do anything if it's not the master request.
         if ($event->isMasterRequest()) {
             $response = $event->getResponse();
-
+            
+            if (in_array($event->getRequest()->getRealMethod(), ['OPTIONS', 'HEAD'])) {
+                $response = new Response(
+                    null,
+                    Response::HTTP_OK,
+                    ['content-type' => 'application/json']
+                );
+            }
+    
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
             $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH, OPTIONS, HEAD');

@@ -8,6 +8,31 @@ class AuthControllerTest extends AbstractCoreTest
     /**
      * Test sucess session logged.
      */
+    public function testAuthOptions()
+    {
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('auth_check'),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
+     * Test sucess session logged.
+     */
     public function testAuthSuccess()
     {
         $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/Auth/testAuthSuccess.json'), true);

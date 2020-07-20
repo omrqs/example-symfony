@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 
 /**
- * @Route("/auth", name="auth_", methods={"GET"})
+ * @Route("/auth", name="auth_", methods={"OPTIONS"})
  **/
 class AuthController extends AbstractController
 {

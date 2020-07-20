@@ -16,6 +16,31 @@ class CityControllerTest extends AbstractCoreTest
     public $testId404 = 100;
 
     /**
+     * Test OPTIONS list cities.
+     */
+    public function testGetCitiesOptions()
+    {
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('city_index'),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+        
+        $this->assertSame(200, $response->getStatusCode());
+        
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success list cities.
      */
     public function testGetCitiesSuccess()
@@ -93,7 +118,36 @@ class CityControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test OPTIONS new city.
+     */
+    public function testPostCityOptions()
+    {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/City/testPostCitySuccess.json'), true);
+
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('city_new'),
+            [],
+            [],
+            self::$loggedHeaders,
+            json_encode($mock['request'])
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success new city.
+     * @depends testPostCityOptions
      */
     public function testPostCitySuccess()
     {
@@ -169,8 +223,34 @@ class CityControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test OPTIONS get city by id.
+     */
+    public function testGetCityOptions()
+    {
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('city_show', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success get city by id.
      *
+     * @depends testGetCityOptions
      * @depends testPostCitySuccess
      */
     public function testGetCitySuccess()
@@ -205,8 +285,39 @@ class CityControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test OPTIONS update a city.
+     *
+     * @depends testGetCityOptions
+     */
+    public function testPatchCityOptions()
+    {
+        $mock = json_decode(\file_get_contents(__DIR__.'/Fixtures/City/testPatchCitySuccess.json'), true);
+
+        $this->client->xmlHttpRequest(
+            'OPTIONS',
+            $this->router->generate('city_update', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders,
+            json_encode($mock['request'])
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success update a city.
      *
+     * @depends testPatchCityOptions
      * @depends testGetCitySuccess
      */
     public function testPatchCitySuccess()
@@ -243,8 +354,36 @@ class CityControllerTest extends AbstractCoreTest
     }
 
     /**
+     * Test OPTIONS delete a city.
+     *
+     * @depends testPatchCitySuccess
+     */
+    public function testDeleteCityOptions()
+    {
+        $this->client->xmlHttpRequest(
+            'DELETE',
+            $this->router->generate('city_delete', ['id' => $this->testId]),
+            [],
+            [],
+            self::$loggedHeaders
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            )
+        );
+    }
+
+    /**
      * Test success delete a city.
      *
+     * @depends testDeleteCityOptions
      * @depends testPatchCitySuccess
      */
     public function testDeleteCitySuccess()
