@@ -16,7 +16,7 @@ use Nelmio\ApiDocBundle\Annotation\Security as NelmioSecurity;
 use Swagger\Annotations as SWG;
 
 /**
- * @Route("/state", name="state_", methods={"OPTIONS"}))
+ * @Route("/state", name="state_", methods={"OPTIONS"})
  */
 class StateController extends AbstractController
 {

@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 
 /**
- * @Route(methods={"OPTIONS"}))
+ * @Route(methods={"OPTIONS"})
  */
 class IndexController extends AbstractController
 {

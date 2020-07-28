@@ -95,6 +95,10 @@
             "@post-root-package-install",
             "@install-assets"
         ],
+        "setup-ci": [
+            "@composer install --no-interaction --no-progress --no-suggest",
+            "@post-root-package-install"
+        ],
         "server-dump": [
             "@update-db",
             "php bin/console server:dump"
