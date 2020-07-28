@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -21,7 +22,7 @@ class CorsSubscriber implements EventSubscriberInterface
         if ($event->isMasterRequest()) {
             $response = $event->getResponse();
             
-            if (in_array($event->getRequest()->getRealMethod(), ['OPTIONS', 'HEAD'])) {
+            if (in_array($event->getRequest()->getRealMethod(), [Request::METHOD_OPTIONS, Request::METHOD_HEAD])) {
                 $response = new Response(
                     null,
                     Response::HTTP_OK,
