@@ -2,6 +2,8 @@ version: '3.7'
 networks:
     challenge:
         driver: bridge
+volumes:
+    dbdata:
 services:
     web:
         image: omrqs/php7.x-sf:php-7.4-dev
@@ -37,7 +39,7 @@ services:
         ports:
             - ${DB_PORT}:${DB_PORT}
         volumes:
-            - "./var/.mysql/db:/var/lib/mysql"
+            - "dbdata:/var/lib/mysql"
         environment:
             MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -46,4 +48,3 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         networks:
             - challenge
-            
